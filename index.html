@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,23 @@
       --card-bg: #252525;
       --text-color: #e0e0e0;
       --accent-color: #4da6ff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
     [data-theme="light"] {
       --bg-color: #f5f5f5;
       --card-bg: #ffffff;
       --text-color: #333333;
       --accent-color: #0066cc;
-      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -28,14 +36,17 @@
       padding: 20px;
       transition: background-color 0.3s;
     }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
     }
+
     header {
       text-align: center;
       padding: 40px 0;
     }
+
     h1 {
       font-size: 3.5rem;
       background: linear-gradient(90deg, var(--accent-color), #8a2be2);
@@ -44,11 +55,13 @@
       color: transparent;
       margin-bottom: 10px;
     }
+
     .subtitle {
       font-size: 1.2rem;
       opacity: 0.8;
       margin-bottom: 20px;
     }
+
     .lang-toggle {
       position: fixed;
       top: 20px;
@@ -63,16 +76,19 @@
       transition: all 0.3s;
       z-index: 100;
     }
+
     .lang-toggle:hover {
       background: var(--accent-color);
       color: white;
     }
+
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 25px;
       margin: 40px 0;
     }
+
     .project-card {
       background: var(--card-bg);
       border-radius: 12px;
@@ -80,25 +96,30 @@
       box-shadow: var(--shadow);
       transition: transform 0.3s, box-shadow 0.3s;
     }
+
     .project-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 102, 204, 0.4);
     }
+
     .project-card h3 {
       color: var(--accent-color);
       margin-bottom: 15px;
       font-size: 1.4rem;
     }
+
     .project-card p {
       margin-bottom: 10px;
       line-height: 1.7;
     }
+
     .tech-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 15px;
     }
+
     .tag {
       background: rgba(77, 166, 255, 0.15);
       color: var(--accent-color);
@@ -106,31 +127,35 @@
       border-radius: 15px;
       font-size: 0.85rem;
     }
+
     footer {
       text-align: center;
       padding: 30px;
       opacity: 0.7;
       font-size: 0.9rem;
     }
+
     @media (max-width: 768px) {
       .projects {
         grid-template-columns: 1fr;
       }
+
       h1 {
         font-size: 2.5rem;
       }
     }
   </style>
 </head>
+
 <body>
   <button class="lang-toggle" id="lang-toggle">English</button>
-  
+
   <div class="container">
     <header>
       <h1>WangGaoshuan</h1>
       <p class="subtitle" data-i18n="subtitle">Embedded Systems Engineer | STM32 Specialist</p>
     </header>
-    
+
     <section class="projects">
       <!-- 项目卡片 1 -->
       <div class="project-card">
@@ -143,7 +168,7 @@
           <span class="tag">PCB Design</span>
         </div>
       </div>
-      
+
       <!-- 项目卡片 2 -->
       <div class="project-card">
         <h3 data-i18n="proj2-title">Op-Amp Signal Conditioning</h3>
@@ -155,8 +180,8 @@
           <span class="tag">Sensor Fusion</span>
         </div>
       </div>
-      
-      <!-- 项目卡片 3（可复制添加更多） -->
+
+      <!-- 项目卡片 3 -->
       <div class="project-card">
         <h3 data-i18n="proj3-title">Drone Flight Controller</h3>
         <p data-i18n="proj3-desc">基于ATSAME70Q21的无人机飞控系统，实现姿态解算与PID控制。</p>
@@ -168,77 +193,69 @@
         </div>
       </div>
     </section>
-    
+
     <footer>
       <p data-i18n="footer">© 2023 WangGaoshuan. All rights reserved.</p>
     </footer>
   </div>
 
-  <script>
-    // 多语言数据
-    const translations = {
-      zh: {
-        subtitle: "嵌入式系统工程师 | STM32专家",
-        proj1Title: "智能环境监测站",
-        proj1Desc: "基于STM32F4的环境监测站，集成温湿度、光照、PM2.5传感器，支持WiFi数据上传。",
-        proj2Title: "运放信号调理电路",
-        proj2Desc: "设计高精度运放电路，用于微弱生物电信号采集，噪声抑制达60dB。",
-        proj3Title: "无人机飞控系统",
-        proj3Desc: "基于ATSAME70Q21的无人机飞控系统，实现姿态解算与PID控制。",
-        footer: "© 2023 WangGaoshuan. 保留所有权利。",
-        toggleText: "English"
-      },
-      en: {
-        subtitle: "Embedded Systems Engineer | STM32 Specialist",
-        proj1Title: "Smart Environmental Monitor",
-        proj1Desc: "STM32F4-based environmental station with temperature, humidity, light and PM2.5 sensors. WiFi data upload supported.",
-        proj2Title: "Op-Amp Signal Conditioning",
-        proj2Desc: "Designed high-precision op-amp circuit for weak bio-signal acquisition with 60dB noise suppression.",
-        proj3Title: "Drone Flight Controller",
-        proj3Desc: "Drone flight controller based on ATSAME70Q21, implementing attitude calculation and PID control.",
-        footer: "© 2023 WangGaoshuan. All rights reserved.",
-        toggleText: "中文"
+<script>
+  // 多语言数据（键名已统一为连字符格式，与HTML完全匹配！）
+  const translations = {
+    zh: {
+      subtitle: "嵌入式系统工程师 | STM32专家",
+      "proj1-title": "智能环境监测站",
+      "proj1-desc": "基于STM32F4的环境监测站，集成温湿度、光照、PM2.5传感器，支持WiFi数据上传。",
+      "proj2-title": "运放信号调理电路",
+      "proj2-desc": "设计高精度运放电路，用于微弱生物电信号采集，噪声抑制达60dB。",
+      "proj3-title": "无人机飞控系统",
+      "proj3-desc": "基于ATSAME70Q21的无人机飞控系统，实现姿态解算与PID控制。",
+      footer: "© 2023 WangGaoshuan. 保留所有权利。",
+      toggleText: "English"
+    },
+    en: {
+      subtitle: "Embedded Systems Engineer | STM32 Specialist",
+      "proj1-title": "Smart Environmental Monitor",
+      "proj1-desc": "STM32F4-based environmental station with temperature, humidity, light and PM2.5 sensors. WiFi data upload supported.",
+      "proj2-title": "Op-Amp Signal Conditioning",
+      "proj2-desc": "Designed high-precision op-amp circuit for weak bio-signal acquisition with 60dB noise suppression.",
+      "proj3-title": "Drone Flight Controller",
+      "proj3-desc": "Drone flight controller based on ATSAME70Q21, implementing attitude calculation and PID control.",
+      footer: "© 2023 WangGaoshuan. All rights reserved.",
+      toggleText: "中文"
+    }
+  };
+
+  // 初始化语言
+  let currentLang = localStorage.getItem('site-lang') || 
+                   (navigator.language.startsWith('zh') ? 'zh' : 'en');
+  
+  // 应用翻译（已删除冗余的特殊处理逻辑！）
+  function applyLanguage(lang) {
+    // 遍历所有带 data-i18n 属性的元素
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
       }
-    };
-
-    // 初始化语言
-    let currentLang = localStorage.getItem('site-lang') || 
-                     (navigator.language.startsWith('zh') ? 'zh' : 'en');
-    
-    // 应用翻译
-    function applyLanguage(lang) {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-          el.textContent = translations[lang][key];
-        }
-      });
-      
-      // 特殊处理项目标题（因为HTML结构不同）
-      document.querySelectorAll('.project-card h3').forEach((el, index) => {
-        const titles = lang === 'zh' ? 
-          ['proj1Title', 'proj2Title', 'proj3Title'] : 
-          ['proj1Title', 'proj2Title', 'proj3Title'];
-        el.textContent = translations[lang][titles[index]];
-      });
-      
-      document.getElementById('lang-toggle').textContent = translations[lang].toggleText;
-      localStorage.setItem('site-lang', lang);
-    }
-
-    // 语言切换
-    document.getElementById('lang-toggle').addEventListener('click', () => {
-      currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      applyLanguage(currentLang);
     });
+    
+    // 更新切换按钮文字
+    document.getElementById('lang-toggle').textContent = translations[lang].toggleText;
+    localStorage.setItem('site-lang', lang);
+  }
 
-    // 首次加载
+  // 语言切换事件
+  document.getElementById('lang-toggle').addEventListener('click', () => {
+    currentLang = currentLang === 'zh' ? 'en' : 'zh';
     applyLanguage(currentLang);
+  });
 
-    // 深色模式自动切换
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  </script>
-</body>
-</html>
+  // 首次加载
+  applyLanguage(currentLang);
+
+  // 深色模式自动切换
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+</script>
