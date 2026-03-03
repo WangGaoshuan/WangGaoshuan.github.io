@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,23 @@
       --card-bg: #252525;
       --text-color: #e0e0e0;
       --accent-color: #4da6ff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
     [data-theme="light"] {
       --bg-color: #f5f5f5;
       --card-bg: #ffffff;
       --text-color: #333333;
       --accent-color: #0066cc;
-      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -28,14 +36,17 @@
       padding: 20px;
       transition: background-color 0.3s;
     }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
     }
+
     header {
       text-align: center;
       padding: 40px 0;
     }
+
     h1 {
       font-size: 3.5rem;
       background: linear-gradient(90deg, var(--accent-color), #8a2be2);
@@ -44,11 +55,13 @@
       color: transparent;
       margin-bottom: 10px;
     }
+
     .subtitle {
       font-size: 1.2rem;
       opacity: 0.8;
       margin-bottom: 20px;
     }
+
     .lang-toggle {
       position: fixed;
       top: 20px;
@@ -63,16 +76,19 @@
       transition: all 0.3s;
       z-index: 100;
     }
+
     .lang-toggle:hover {
       background: var(--accent-color);
       color: white;
     }
+
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 25px;
       margin: 40px 0;
     }
+
     .project-card {
       background: var(--card-bg);
       border-radius: 12px;
@@ -81,25 +97,30 @@
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
     }
+
     .project-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 102, 204, 0.4);
     }
+
     .project-card h3 {
       color: var(--accent-color);
       margin-bottom: 15px;
       font-size: 1.4rem;
     }
+
     .project-card p {
       margin-bottom: 10px;
       line-height: 1.7;
     }
+
     .tech-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 15px;
     }
+
     .tag {
       background: rgba(77, 166, 255, 0.15);
       color: var(--accent-color);
@@ -107,26 +128,30 @@
       border-radius: 15px;
       font-size: 0.85rem;
     }
+
     footer {
       text-align: center;
       padding: 30px;
       opacity: 0.7;
       font-size: 0.9rem;
     }
-    
+
     /* ============= 模态框样式 ============= */
     .modal {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(5px);
       z-index: 2000;
       justify-content: center;
       align-items: center;
       padding: 20px;
     }
+
     .modal-content {
       background: var(--card-bg);
       color: var(--text-color);
@@ -135,94 +160,132 @@
       max-width: 900px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       position: relative;
       padding: 35px;
       animation: fadeIn 0.3s;
     }
-    @keyframes fadeIn { 
-      from { opacity: 0; transform: translateY(20px); } 
-      to { opacity: 1; transform: translateY(0); } 
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     .close-modal {
       position: absolute;
-      top: 20px; right: 25px;
+      top: 20px;
+      right: 25px;
       font-size: 32px;
       color: var(--text-color);
       background: none;
       border: none;
       cursor: pointer;
-      width: 40px; height: 40px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
     }
+
     .close-modal:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       color: var(--accent-color);
       transform: rotate(90deg);
     }
+
     .modal h2 {
       color: var(--accent-color);
       font-size: 2.2rem;
       margin-bottom: 25px;
       padding-bottom: 15px;
-      border-bottom: 1px solid rgba(77,166,255,0.3);
+      border-bottom: 1px solid rgba(77, 166, 255, 0.3);
     }
+
     .modal p {
       line-height: 1.8;
       margin: 15px 0;
       font-size: 1.05rem;
     }
+
     .modal-img {
       width: 100%;
       max-height: 400px;
       object-fit: contain;
       border-radius: 10px;
       margin: 25px 0;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
+
     .modal-section {
       margin: 25px 0;
     }
+
     .modal-section h3 {
       color: var(--accent-color);
       margin: 20px 0 12px;
       font-size: 1.5rem;
     }
+
     .tech-list {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 15px;
     }
+
     .tech-tag {
-      background: rgba(77,166,255,0.15);
+      background: rgba(77, 166, 255, 0.15);
       color: var(--accent-color);
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 0.95rem;
     }
+
     @media (max-width: 768px) {
-      .projects { grid-template-columns: 1fr; }
-      h1 { font-size: 2.5rem; }
-      .modal-content { padding: 25px 20px; margin: 10px; }
-      .close-modal { top: 15px; right: 15px; font-size: 28px; }
-      .modal h2 { font-size: 1.8rem; }
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .modal-content {
+        padding: 25px 20px;
+        margin: 10px;
+      }
+
+      .close-modal {
+        top: 15px;
+        right: 15px;
+        font-size: 28px;
+      }
+
+      .modal h2 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <button class="lang-toggle" id="lang-toggle">English</button>
-  
+
   <div class="container">
     <header>
       <h1>个人主页</h1>
       <p class="subtitle" data-i18n="subtitle">Embedded Systems Engineer | STM32 Specialist</p>
     </header>
-    
+
     <section class="projects">
       <!-- 项目卡片 1 -->
       <div class="project-card" onclick="openModal('modal1')">
@@ -235,7 +298,7 @@
           <span class="tag">PCB Design</span>
         </div>
       </div>
-      
+
       <!-- 项目卡片 2 -->
       <div class="project-card" onclick="openModal('modal2')">
         <h3 data-i18n="proj2-title">Op-Amp Signal Conditioning</h3>
@@ -247,7 +310,7 @@
           <span class="tag">Sensor Fusion</span>
         </div>
       </div>
-      
+
       <!-- 项目卡片 3 -->
       <div class="project-card" onclick="openModal('modal3')">
         <h3 data-i18n="proj3-title">Drone Flight Controller</h3>
@@ -260,59 +323,57 @@
         </div>
       </div>
     </section>
-    
+
     <footer>
       <p data-i18n="footer">© 2023 WangGaoshuan. All rights reserved.</p>
     </footer>
   </div>
-  
+
   <!-- ============= 模态框1 ============= -->
   <div id="modal1" class="modal">
     <div class="modal-content">
       <button class="close-modal" onclick="closeModal('modal1')">&times;</button>
       <h2 data-i18n="modal1-title">智能环境监测站</h2>
-      
+
       <div class="modal-section">
-        <p data-i18n="modal1-desc1">基于STM32F407VGT6主控，集成DHT22温湿度传感器、BH1750光照传感器、GP2Y1014AU0F PM2.5传感器，通过ESP8266 WiFi模块将数据上传至阿里云IoT平台。</p>
-        <p data-i18n="modal1-desc2"><strong>核心功能：</strong> 实时环境数据监测、阈值报警、历史数据曲线、手机端远程查看。</p>
+        <p data-i18n="modal1-desc1">基于STM32F407VGT6主控...</p>
+        <p data-i18n="modal1-desc2"><strong>核心功能：</strong>...</p>
       </div>
-      
-      <img src="https://via.placeholder.com/800x400/2a2a2a/4da6ff?text=STM32+Environmental+Monitor" alt="项目1" class="modal-img">
-      
+
+      <img src="images/proj1-main.jpg" alt="环境监测站实物" class="modal-img">
+
       <div class="modal-section">
         <h3 data-i18n="modal1-tech">关键技术</h3>
-        <div class="tech-list">
-          <span class="tech-tag" data-i18n="tag-stm32">STM32F4</span>
-          <span class="tech-tag" data-i18n="tag-sensors">多传感器融合</span>
-          <span class="tech-tag" data-i18n="tag-wifi">ESP8266 WiFi</span>
-          <span class="tech-tag" data-i18n="tag-cloud">阿里云IoT</span>
-          <span class="tech-tag" data-i18n="tag-pcb">Altium Designer PCB</span>
-        </div>
+        <div class="tech-list">...</div>
       </div>
-      
+
       <div class="modal-section">
         <h3 data-i18n="modal1-gallery">项目图集</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin-top:15px">
-          <img src="https://via.placeholder.com/150/2a2a2a/4da6ff?text=PCB" class="modal-img" style="max-height:150px">
-          <img src="https://via.placeholder.com/150/2a2a2a/4da6ff?text=Assembly" class="modal-img" style="max-height:150px">
-          <img src="https://via.placeholder.com/150/2a2a2a/4da6ff?text=Test" class="modal-img" style="max-height:150px">
+        <div style="display:grid;...">
+          <!-- 小图：替换为你的图片 -->
+          <img src="images/proj1-pcb.jpg" class="modal-img" style="max-height:150px">
+          <img src="images/proj1-assembly.jpg" class="modal-img" style="max-height:150px">
+          <img src="images/proj1-test.jpg" class="modal-img" style="max-height:150px">
         </div>
       </div>
     </div>
   </div>
-  
+
   <!-- ============= 模态框2 ============= -->
   <div id="modal2" class="modal">
     <div class="modal-content">
       <button class="close-modal" onclick="closeModal('modal2')">&times;</button>
       <h2 data-i18n="modal2-title">运放信号调理电路</h2>
-      
+
       <div class="modal-section">
-        <p data-i18n="modal2-desc">高精度生物电信号采集系统，采用三级放大+带通滤波架构，输入阻抗>1GΩ，共模抑制比>100dB，成功应用于心电/肌电信号采集。使用LM358搭建差分放大电路，配合RC滤波网络实现50Hz工频干扰抑制，实测信噪比提升15dB。</p>
+        <p data-i18n="modal2-desc">
+          高精度生物电信号采集系统，采用三级放大+带通滤波架构，输入阻抗>1GΩ，共模抑制比>100dB，成功应用于心电/肌电信号采集。使用LM358搭建差分放大电路，配合RC滤波网络实现50Hz工频干扰抑制，实测信噪比提升15dB。
+        </p>
       </div>
-      
-      <img src="https://via.placeholder.com/800x400/2a2a2a/8a2be2?text=Op-Amp+Circuit+Design" alt="项目2" class="modal-img">
-      
+
+      <img src="https://via.placeholder.com/800x400/2a2a2a/8a2be2?text=Op-Amp+Circuit+Design" alt="项目2"
+        class="modal-img">
+
       <div class="modal-section">
         <h3 data-i18n="modal2-tech">关键技术</h3>
         <div class="tech-list">
@@ -324,19 +385,22 @@
       </div>
     </div>
   </div>
-  
+
   <!-- ============= 模态框3 ============= -->
   <div id="modal3" class="modal">
     <div class="modal-content">
       <button class="close-modal" onclick="closeModal('modal3')">&times;</button>
       <h2 data-i18n="modal3-title">无人机飞控系统</h2>
-      
+
       <div class="modal-section">
-        <p data-i18n="modal3-desc">基于ATSAME70Q21的四轴飞行器控制系统，实现MPU9250姿态解算（互补滤波+卡尔曼滤波）、PID闭环控制、超声波定高、光流定位。采用RT-Thread实时操作系统管理任务调度，通过nRF24L01实现2.4GHz遥控通信，续航时间达18分钟。</p>
+        <p data-i18n="modal3-desc">
+          基于ATSAME70Q21的四轴飞行器控制系统，实现MPU9250姿态解算（互补滤波+卡尔曼滤波）、PID闭环控制、超声波定高、光流定位。采用RT-Thread实时操作系统管理任务调度，通过nRF24L01实现2.4GHz遥控通信，续航时间达18分钟。
+        </p>
       </div>
-      
-      <img src="https://via.placeholder.com/800x400/2a2a2a/32cd32?text=Drone+Flight+Controller" alt="项目3" class="modal-img">
-      
+
+      <img src="https://via.placeholder.com/800x400/2a2a2a/32cd32?text=Drone+Flight+Controller" alt="项目3"
+        class="modal-img">
+
       <div class="modal-section">
         <h3 data-i18n="modal3-tech">关键技术</h3>
         <div class="tech-list">
@@ -360,13 +424,13 @@
       document.body.style.overflow = 'auto';
     }
     // 点击背景关闭
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
         document.body.style.overflow = 'auto';
       }
     }
-    
+
     // ============= 多语言数据（键名统一为连字符格式） =============
     const translations = {
       zh: {
@@ -448,9 +512,9 @@
     };
 
     // 初始化语言
-    let currentLang = localStorage.getItem('site-lang') || 
-                     (navigator.language.startsWith('zh') ? 'zh' : 'en');
-    
+    let currentLang = localStorage.getItem('site-lang') ||
+      (navigator.language.startsWith('zh') ? 'zh' : 'en');
+
     // 应用翻译
     function applyLanguage(lang) {
       document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -478,4 +542,5 @@
     }
   </script>
 </body>
+
 </html>
