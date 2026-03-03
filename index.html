@@ -289,13 +289,13 @@
     <section class="projects">
       <!-- 项目卡片 1 -->
       <div class="project-card" onclick="openModal('modal1')">
-        <h3 data-i18n="proj1-title">Smart Environmental Monitor</h3>
-        <p data-i18n="proj1-desc">基于STM32F4的环境监测站，集成温湿度、光照、PM2.5传感器，支持WiFi数据上传。</p>
+        <h3 data-i18n="proj1-title">四足机器人</h3>
+        <p data-i18n="proj1-desc">基于STM32的四足机器人。采用485总线架构，12个或8个无刷关节模组，通过IMU与编码器数据融合实现身体姿态，遥控器进行控制</p>
         <div class="tech-tags">
-          <span class="tag">STM32F4</span>
-          <span class="tag">DHT22</span>
-          <span class="tag">ESP8266</span>
-          <span class="tag">PCB Design</span>
+          <span class="tag">STM32</span>
+          <span class="tag">485总线</span>
+          <span class="tag">无刷电机</span>
+          <span class="tag">SBUS</span>
         </div>
       </div>
 
@@ -333,10 +333,10 @@
   <div id="modal1" class="modal">
     <div class="modal-content">
       <button class="close-modal" onclick="closeModal('modal1')">&times;</button>
-      <h2 data-i18n="modal1-title">智能环境监测站</h2>
+      <h2 data-i18n="modal1-title">四足机器人</h2>
 
       <div class="modal-section">
-        <p data-i18n="modal1-desc1">基于STM32F407VGT6主控...</p>
+        <p data-i18n="modal1-desc1">基于STM32F407VET6主控</p>
         <p data-i18n="modal1-desc2"><strong>核心功能：</strong>...</p>
       </div>
 
@@ -350,7 +350,6 @@
       <div class="modal-section">
         <h3 data-i18n="modal1-gallery">项目图集</h3>
         <div style="display:grid;...">
-          <!-- 小图：替换为你的图片 -->
           <img src="images/proj1-pcb.jpg" class="modal-img" style="max-height:150px">
           <img src="images/proj1-assembly.jpg" class="modal-img" style="max-height:150px">
           <img src="images/proj1-test.jpg" class="modal-img" style="max-height:150px">
@@ -434,9 +433,9 @@
     // ============= 多语言数据（键名统一为连字符格式） =============
     const translations = {
       zh: {
-        subtitle: "嵌入式系统工程师 | STM32专家",
-        "proj1-title": "智能环境监测站",
-        "proj1-desc": "基于STM32F4的环境监测站，集成温湿度、光照、PM2.5传感器，支持WiFi数据上传。",
+        subtitle: "嵌入式系统工程师 | 19929138242@163.com",
+        "proj1-title": "四足机器人",
+        "proj1-desc": "基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。",
         "proj2-title": "运放信号调理电路",
         "proj2-desc": "设计高精度运放电路，用于微弱生物电信号采集，噪声抑制达60dB。",
         "proj3-title": "无人机飞控系统",
@@ -444,13 +443,13 @@
         footer: "© 2023 WangGaoshuan. 保留所有权利。",
         toggleText: "English",
         // 模态框1
-        "modal1-title": "智能环境监测站",
-        "modal1-desc1": "基于STM32F407VGT6主控，集成DHT22温湿度传感器、BH1750光照传感器、GP2Y1014AU0F PM2.5传感器，通过ESP8266 WiFi模块将数据上传至阿里云IoT平台。",
+        "modal1-title": "四足机器人",
+        "modal1-desc1": "基于STM32H743的开源四足机器人复现与优化。采用分布式CAN总线架构，6个无刷关节模组（AS5047P+DRV8305），通过IMU与编码器数据融合实现身体姿态估计。移植MIT步态算法，基于QP优化生成trot/bound步态，FreeRTOS保障1kHz控制周期，最大奔跑速度1.5m/s。自主设计电源管理模块与上位机调试工具。",
         "modal1-desc2": "核心功能：实时环境数据监测、阈值报警、历史数据曲线、手机端远程查看。",
         "modal1-tech": "关键技术",
-        "tag-stm32": "STM32F4",
-        "tag-sensors": "多传感器融合",
-        "tag-wifi": "ESP8266 WiFi",
+        "tag-stm32": "STM32",
+        "tag-sensors": "无刷电机+IMU融合",
+        "tag-wifi": "485总线",
         "tag-cloud": "阿里云IoT",
         "tag-pcb": "Altium Designer PCB",
         "modal1-gallery": "项目图集",
