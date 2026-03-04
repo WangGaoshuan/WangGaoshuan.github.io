@@ -293,7 +293,7 @@
         <p data-i18n="proj1-desc">基于STM32的四足机器人。采用485总线架构，12个或8个无刷关节模组，通过IMU与编码器数据融合实现身体姿态，遥控器进行控制</p>
         <div class="tech-tags">
           <span class="tag">STM32</span>
-          <span class="tag">485总线</span>
+          <span class="tag">RS485总线</span>
           <span class="tag">无刷电机</span>
           <span class="tag">SBUS</span>
         </div>
@@ -323,7 +323,18 @@
         </div>
       </div>
     </section>
-
+    <!-- 项目卡片 4 -->
+    <div class="project-card" onclick="openModal('modal4')">
+      <h3 data-i18n="proj4-title">6层PCB设计</h3>
+      <p data-i18n="proj4-desc">基于GW2A-LV18PG256C8/I7的FPGA绘制，实现高速信号完整性设计。</p>
+      <div class="tech-tags">
+        <span class="tag">ATSAME70</span>
+        <span class="tag">IMU</span>
+        <span class="tag">PID Control</span>
+        <span class="tag">RT-Thread</span>
+      </div>
+    </div>
+    </section>
     <footer>
       <p data-i18n="footer">© 2023 WangGaoshuan. All rights reserved.</p>
     </footer>
@@ -384,6 +395,16 @@
       </div>
     </div>
   </div>
+  <div class="modal-section">
+    <h3 data-i18n="modal2-gallery">项目图集</h3>
+    <div style="display:grid;...">
+      <img src="images/proj2-pcb.jpg" class="modal-img" style="max-height:150px">
+      <img src="images/proj2-assembly.jpg" class="modal-img" style="max-height:150px">
+      <img src="images/proj2-test.jpg" class="modal-img" style="max-height:150px">
+    </div>
+  </div>
+  </div>
+  </div>
 
   <!-- ============= 模态框3 ============= -->
   <div id="modal3" class="modal">
@@ -412,6 +433,32 @@
     </div>
   </div>
 
+  <!-- ============= 模态框4 ============= -->
+  <div id="modal4" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('modal3')">&times;</button>
+      <h2 data-i18n="modal3-title">无人机飞控系统</h2>
+
+      <div class="modal-section">
+        <p data-i18n="modal3-desc">
+          基于ATSAME70Q21的四轴飞行器控制系统，实现MPU9250姿态解算（互补滤波+卡尔曼滤波）、PID闭环控制、超声波定高、光流定位。采用RT-Thread实时操作系统管理任务调度，通过nRF24L01实现2.4GHz遥控通信，续航时间达18分钟。
+        </p>
+      </div>
+
+      <img src="https://via.placeholder.com/800x400/2a2a2a/32cd32?text=Drone+Flight+Controller" alt="项目3"
+        class="modal-img">
+
+      <div class="modal-section">
+        <h3 data-i18n="modal3-tech">关键技术</h3>
+        <div class="tech-list">
+          <span class="tech-tag" data-i18n="tag-same70">ATSAME70</span>
+          <span class="tech-tag" data-i18n="tag-imu">MPU9250 IMU</span>
+          <span class="tech-tag" data-i18n="tag-rtos">RT-Thread</span>
+          <span class="tech-tag" data-i18n="tag-control">PID控制</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
     // ============= 模态框控制函数 =============
     function openModal(id) {
@@ -444,31 +491,40 @@
         toggleText: "English",
         // 模态框1
         "modal1-title": "四足机器人",
-        "modal1-desc1": "基于STM32H743的开源四足机器人复现与优化。采用分布式CAN总线架构，6个无刷关节模组（AS5047P+DRV8305），通过IMU与编码器数据融合实现身体姿态估计。移植MIT步态算法，基于QP优化生成trot/bound步态，FreeRTOS保障1kHz控制周期，最大奔跑速度1.5m/s。自主设计电源管理模块与上位机调试工具。",
-        "modal1-desc2": "核心功能：实时环境数据监测、阈值报警、历史数据曲线、手机端远程查看。",
-        "modal1-tech": "关键技术",
+        "modal1-desc1": "充分调研了当前市场上的四足机器人设计及设计需求，电机采用宇树GO-M8010-6永磁同步电机，绘制分电板，用来设计整体硬件架构，主控使用嘉立创EDA基于STM32设计RS-485,CAN,UART总线,IIC总线的四层PCB板，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。",
+        "modal1-desc2": "",
+        "modal1-tech": "关键技术：4层PCB设计，运动学正解，运动学逆解，IMU,SBUS通信协议",
         "tag-stm32": "STM32",
         "tag-sensors": "无刷电机+IMU融合",
-        "tag-wifi": "485总线",
-        "tag-cloud": "阿里云IoT",
-        "tag-pcb": "Altium Designer PCB",
+        "tag-485": "485总线",
+        "tag-sbus": "SBUS遥控",
+        "tag-pcb": "嘉立创EDA",
         "modal1-gallery": "项目图集",
         // 模态框2
-        "modal2-title": "运放信号调理电路",
-        "modal2-desc": "高精度生物电信号采集系统，采用三级放大+带通滤波架构，输入阻抗>1GΩ，共模抑制比>100dB，成功应用于心电/肌电信号采集。使用LM358搭建差分放大电路，配合RC滤波网络实现50Hz工频干扰抑制，实测信噪比提升15dB。",
+        "modal2-title": "太阳能小车",
+        "modal2-desc": "设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛“重走长征路”主题赛道。车辆需自主循迹，精准抵达瑞金、延安等13个历史节点（初赛10固定点，决赛13随机点），融合红色文化与绿色科技，考验工程全链路能力。设计过程中，负责电路设计与调试，采用太阳能板供电，设计高效能量管理系统，确保续航能力。通过优化电机控制算法和车体结构，实现精准循迹和稳定行驶。最终成功完成比赛任务，获得优异成绩。",
         "modal2-tech": "关键技术",
-        "tag-opamp": "LM358运放",
-        "tag-filter": "有源滤波器",
-        "tag-noise": "噪声抑制",
-        "tag-measure": "示波器调试",
+        "tag-opamp": "超级电容",
+        "tag-filter": "UID标签",
+        "tag-noise": "凸轮",
+        "tag-measure": "SolidWorks",
         // 模态框3
-        "modal3-title": "无人机飞控系统",
-        "modal3-desc": "基于ATSAME70Q21的四轴飞行器控制系统，实现MPU9250姿态解算（互补滤波+卡尔曼滤波）、PID闭环控制、超声波定高、光流定位。采用RT-Thread实时操作系统管理任务调度，通过nRF24L01实现2.4GHz遥控通信，续航时间达18分钟。",
+        "modal3-title": "6层PCB绘制",
+        "modal3-desc": "基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板，实现高速信号传输与电源管理。",
         "modal3-tech": "关键技术",
-        "tag-same70": "ATSAME70",
-        "tag-imu": "MPU9250 IMU",
-        "tag-rtos": "RT-Thread",
-        "tag-control": "PID控制"
+        "tag-same70": "DDR3内存",
+        "tag-imu": "阻抗匹配",
+        "tag-rtos": "HDMI接口",
+        "tag-control": "嘉立创EDA",
+
+        // 模态框4
+        "modal4-title": "6层PCB设计",
+        "modal4-desc": "GW2A-LV18PG256C8/I7的FPGA绘制，基于ATSAME70Q21的四轴飞行器控制系统，实现MPU9250姿态解算（互补滤波+卡尔曼滤波）、PID闭环控制、超声波定高、光流定位。采用RT-Thread实时操作系统管理任务调度，通过nRF24L01实现2.4GHz遥控通信，续航时间达18分钟。",
+        "modal4-tech": "关键技术",
+        "tag-same70": "DDR3内存",
+        "tag-imu": "阻抗匹配",
+        "tag-rtos": "HDMI接口",
+        "tag-control": "嘉立创EDA"
       },
       en: {
         subtitle: "Embedded Systems Engineer | STM32 Specialist",
