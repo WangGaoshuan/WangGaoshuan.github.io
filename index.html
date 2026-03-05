@@ -152,7 +152,7 @@
     .project-card {
       background-color: var(--bg-card);
       border-radius: 12px;
-      padding: 35px;
+      padding: 0;
       transition: all 0.3s ease;
       height: 100%;
       display: flex;
@@ -185,17 +185,31 @@
       border-color: var(--accent-color);
     }
 
-    .project-image {
+    .project-image-container {
+      position: relative;
       width: 100%;
       height: 200px;
-      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .project-image {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      margin-bottom: 20px;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      filter: brightness(0.8);
     }
 
     .project-card:hover .project-image {
-      transform: scale(1.05);
+      transform: scale(1.1);
+      filter: brightness(1);
+    }
+
+    .project-content {
+      padding: 30px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .project-title {
@@ -420,6 +434,8 @@
     .image-slider {
       position: relative;
       margin-bottom: 20px;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .slider-container {
@@ -437,6 +453,7 @@
       min-width: 100%;
       height: 400px;
       object-fit: cover;
+      filter: brightness(0.9);
     }
 
     .slider-btn {
@@ -525,8 +542,12 @@
         font-size: 2rem;
       }
 
-      .project-image {
+      .project-image-container {
         height: 150px;
+      }
+
+      .project-content {
+        padding: 20px;
       }
 
       .modal-content {
@@ -577,53 +598,69 @@
       <div class="projects-grid">
         <!-- 项目1：四足机器人 -->
         <div class="project-card fade-in" onclick="openModal('modal1')">
-          <img src="images/robot.jpg" alt="四足机器人" class="project-image">
-          <h2 class="project-title">四足机器人</h2>
-          <p class="project-description">基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。</p>
-          <div class="tech-stack">
-            <span class="tech-tag">STM32</span>
-            <span class="tech-tag">无刷电机</span>
-            <span class="tech-tag">485总线</span>
-            <span class="tech-tag">SBUS遥控</span>
+          <div class="project-image-container">
+            <img src="images/robot.jpg" alt="四足机器人" class="project-image">
+          </div>
+          <div class="project-content">
+            <h2 class="project-title">四足机器人</h2>
+            <p class="project-description">基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。</p>
+            <div class="tech-stack">
+              <span class="tech-tag">STM32</span>
+              <span class="tech-tag">无刷电机</span>
+              <span class="tech-tag">485总线</span>
+              <span class="tech-tag">SBUS遥控</span>
+            </div>
           </div>
         </div>
 
         <!-- 项目2：太阳能小车 -->
         <div class="project-card fade-in" onclick="openModal('modal2')">
-          <img src="images/solar.jpg" alt="太阳能小车" class="project-image">
-          <h2 class="project-title">太阳能小车</h2>
-          <p class="project-description">设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛，实现自主循迹功能。</p>
-          <div class="tech-stack">
-            <span class="tech-tag">超级电容</span>
-            <span class="tech-tag">UID标签</span>
-            <span class="tech-tag">keil5调试</span>
-            <span class="tech-tag">SolidWorks</span>
+          <div class="project-image-container">
+            <img src="images/solar.jpg" alt="太阳能小车" class="project-image">
+          </div>
+          <div class="project-content">
+            <h2 class="project-title">太阳能小车</h2>
+            <p class="project-description">设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛，实现自主循迹功能。</p>
+            <div class="tech-stack">
+              <span class="tech-tag">超级电容</span>
+              <span class="tech-tag">UID标签</span>
+              <span class="tech-tag">keil5调试</span>
+              <span class="tech-tag">SolidWorks</span>
+            </div>
           </div>
         </div>
 
         <!-- 项目3：6层PCB绘制 -->
         <div class="project-card fade-in" onclick="openModal('modal3')">
-          <img src="images/pcb.jpg" alt="6层PCB绘制" class="project-image">
-          <h2 class="project-title">6层PCB绘制</h2>
-          <p class="project-description">基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板。</p>
-          <div class="tech-stack">
-            <span class="tech-tag">DDR3内存</span>
-            <span class="tech-tag">阻抗匹配</span>
-            <span class="tech-tag">HDMI接口</span>
-            <span class="tech-tag">嘉立创EDA</span>
+          <div class="project-image-container">
+            <img src="images/pcb.jpg" alt="6层PCB绘制" class="project-image">
+          </div>
+          <div class="project-content">
+            <h2 class="project-title">6层PCB绘制</h2>
+            <p class="project-description">基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板。</p>
+            <div class="tech-stack">
+              <span class="tech-tag">DDR3内存</span>
+              <span class="tech-tag">阻抗匹配</span>
+              <span class="tech-tag">HDMI接口</span>
+              <span class="tech-tag">嘉立创EDA</span>
+            </div>
           </div>
         </div>
 
         <!-- 项目4：无人机飞控系统 -->
         <div class="project-card fade-in" onclick="openModal('modal4')">
-          <img src="images/drone.jpg" alt="无人机飞控系统" class="project-image">
-          <h2 class="project-title">无人机飞控系统</h2>
-          <p class="project-description">参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。</p>
-          <div class="tech-stack">
-            <span class="tech-tag">冗余设计</span>
-            <span class="tech-tag">结构设计</span>
-            <span class="tech-tag">Altium Designer</span>
-            <span class="tech-tag">实习经历</span>
+          <div class="project-image-container">
+            <img src="images/drone.jpg" alt="无人机飞控系统" class="project-image">
+          </div>
+          <div class="project-content">
+            <h2 class="project-title">无人机飞控系统</h2>
+            <p class="project-description">参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。</p>
+            <div class="tech-stack">
+              <span class="tech-tag">冗余设计</span>
+              <span class="tech-tag">结构设计</span>
+              <span class="tech-tag">Altium Designer</span>
+              <span class="tech-tag">实习经历</span>
+            </div>
           </div>
         </div>
       </div>
