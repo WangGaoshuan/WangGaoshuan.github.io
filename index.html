@@ -4,168 +4,491 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WangGaoshuan</title>
+  <title>个人主页 - 嵌入式系统工程师</title>
   <style>
-    :root {
-      --bg-color: #1a1a1a;
-      --card-bg: #252525;
-      --text-color: #e0e0e0;
-      --accent-color: #4da6ff;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    [data-theme="light"] {
-      --bg-color: #f5f5f5;
-      --card-bg: #ffffff;
-      --text-color: #333333;
-      --accent-color: #0066cc;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    :root {
+      --bg-primary: #121212;
+      --bg-secondary: #1a1a1a;
+      --bg-card: #1e1e1e;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent-color: #64ffda;
+      --accent-bg: rgba(100, 255, 218, 0.1);
+      --border-color: #333333;
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 浅色主题 */
+    body.light {
+      --bg-primary: #f5f5f5;
+      --bg-secondary: #ffffff;
+      --bg-card: #f8f9fa;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --accent-color: #009688;
+      --accent-bg: rgba(0, 150, 136, 0.1);
+      --border-color: #e0e0e0;
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
     body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
       line-height: 1.6;
-      padding: 20px;
-      transition: background-color 0.3s;
+      transition: all 0.3s ease;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
     header {
       text-align: center;
-      padding: 40px 0;
+      padding: 60px 0 40px;
+      background-color: var(--bg-secondary);
+      margin-bottom: 40px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: var(--shadow);
     }
 
     h1 {
-      font-size: 3.5rem;
-      background: linear-gradient(90deg, var(--accent-color), #8a2be2);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-size: 2.5rem;
+      color: var(--accent-color);
       margin-bottom: 10px;
+      font-weight: 700;
     }
 
     .subtitle {
-      font-size: 1.2rem;
-      opacity: 0.8;
-      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
     }
 
-    .lang-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: var(--card-bg);
-      color: var(--text-color);
-      border: 1px solid var(--accent-color);
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s;
+    /* 导航栏样式 */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--bg-secondary);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       z-index: 100;
     }
 
-    .lang-toggle:hover {
-      background: var(--accent-color);
-      color: white;
+    .nav-links {
+      display: flex;
+      gap: 20px;
     }
 
-    .projects {
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+      font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-color);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      background-color: transparent;
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.8rem;
+    }
+
+    .action-btn:hover {
+      background-color: var(--accent-bg);
+      transform: translateY(-2px);
+    }
+
+    .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 25px;
-      margin: 40px 0;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
     }
 
     .project-card {
-      background: var(--card-bg);
+      background-color: var(--bg-card);
       border-radius: 12px;
-      padding: 25px;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 35px;
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
       cursor: pointer;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color), transparent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
     }
 
     .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 102, 204, 0.4);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      border-color: var(--accent-color);
     }
 
-    .project-card h3 {
+    .project-image {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover .project-image {
+      transform: scale(1.05);
+    }
+
+    .project-title {
+      font-size: 1.4rem;
       color: var(--accent-color);
       margin-bottom: 15px;
-      font-size: 1.4rem;
+      font-weight: 600;
     }
 
-    .project-card p {
-      margin-bottom: 10px;
-      line-height: 1.7;
+    .project-description {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      flex-grow: 1;
+      line-height: 1.6;
     }
 
-    .tech-tags {
+    .tech-stack {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 15px;
     }
 
-    .tag {
-      background: rgba(77, 166, 255, 0.15);
+    .tech-tag {
+      background-color: var(--accent-bg);
       color: var(--accent-color);
-      padding: 4px 10px;
+      padding: 6px 14px;
       border-radius: 15px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .tech-tag:hover {
+      background-color: var(--accent-color);
+      color: var(--bg-primary);
+    }
+
+    .about-section {
+      background-color: var(--bg-secondary);
+      padding: 60px 0;
+      margin-bottom: 60px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .about-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .about-title {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .about-description {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .skills {
+      margin-top: 30px;
+    }
+
+    .skills-title {
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .skill-item {
+      background-color: var(--accent-bg);
+      color: var(--accent-color);
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+      background-color: var(--accent-color);
+      color: var(--bg-primary);
+      transform: translateY(-2px);
+    }
+
+    .contact-section {
+      margin-bottom: 60px;
+    }
+
+    .contact-title {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .contact-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--bg-card);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .contact-email {
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .contact-email a {
+      color: var(--accent-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .contact-email a:hover {
+      text-decoration: underline;
+      transform: scale(1.05);
+      display: inline-block;
+    }
+
+    .contact-message {
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
 
     footer {
       text-align: center;
-      padding: 30px;
-      opacity: 0.7;
+      padding: 40px 0;
+      background-color: var(--bg-secondary);
+      color: var(--text-secondary);
       font-size: 0.9rem;
+      border-radius: 20px 20px 0 0;
+      box-shadow: var(--shadow);
     }
 
-    /* ============= 模态框样式 ============= */
+    /* 模态框样式 */
     .modal {
       display: none;
       position: fixed;
-      top: 0;
+      z-index: 1000;
       left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(5px);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
     }
 
     .modal-content {
-      background: var(--card-bg);
-      color: var(--text-color);
-      border-radius: 16px;
-      width: 95%;
-      max-width: 900px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      background-color: var(--bg-card);
+      margin: 10% auto;
+      padding: 40px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 800px;
       position: relative;
-      padding: 35px;
-      animation: fadeIn 0.3s;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      animation: modalSlideIn 0.3s ease;
     }
 
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .close {
+      color: var(--text-secondary);
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: var(--accent-color);
+      transform: scale(1.2);
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    /* 图片轮播样式 */
+    .image-slider {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .slider-images {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slider-image {
+      min-width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .slider-btn:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slider-btn.prev {
+      left: 10px;
+    }
+
+    .slider-btn.next {
+      right: 10px;
+    }
+
+    .slider-indicators {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 5px;
+    }
+
+    .slider-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slider-indicator.active {
+      background-color: var(--accent-color);
+    }
+
+    /* 动画效果 */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -178,423 +501,463 @@
       }
     }
 
-    .close-modal {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      font-size: 32px;
-      color: var(--text-color);
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
     }
 
-    .close-modal:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--accent-color);
-      transform: rotate(90deg);
-    }
-
-    .modal h2 {
-      color: var(--accent-color);
-      font-size: 2.2rem;
-      margin-bottom: 25px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid rgba(77, 166, 255, 0.3);
-    }
-
-    .modal p {
-      line-height: 1.8;
-      margin: 15px 0;
-      font-size: 1.05rem;
-    }
-
-    .modal-img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: contain;
-      border-radius: 10px;
-      margin: 25px 0;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .modal-section {
-      margin: 25px 0;
-    }
-
-    .modal-section h3 {
-      color: var(--accent-color);
-      margin: 20px 0 12px;
-      font-size: 1.5rem;
-    }
-
-    .tech-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .tech-tag {
-      background: rgba(77, 166, 255, 0.15);
-      color: var(--accent-color);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.95rem;
-    }
-
+    /* 响应式设计 */
     @media (max-width: 768px) {
-      .projects {
-        grid-template-columns: 1fr;
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      header {
+        padding: 80px 0 40px;
       }
 
       h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
+      }
+
+      .project-image {
+        height: 150px;
       }
 
       .modal-content {
-        padding: 25px 20px;
-        margin: 10px;
+        width: 95%;
+        padding: 20px;
+        margin: 20% auto;
       }
 
-      .close-modal {
-        top: 15px;
-        right: 15px;
-        font-size: 28px;
+      .slider-image {
+        height: 200px;
       }
 
-      .modal h2 {
-        font-size: 1.8rem;
+      .about-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .contact-card {
+        padding: 30px;
       }
     }
   </style>
 </head>
 
 <body>
-  <button class="lang-toggle" id="lang-toggle">English</button>
-
-  <div class="container">
-    <header>
-      <h1>个人主页</h1>
-      <p class="subtitle" data-i18n="subtitle">Embedded Systems Engineer | STM32 Specialist</p>
-    </header>
-
-    <section class="projects">
-      <!-- 项目卡片 1 -->
-      <div class="project-card" onclick="openModal('modal1')">
-        <h3 data-i18n="proj1-title">四足机器人</h3>
-        <p data-i18n="proj1-desc">基于STM32的四足机器人。采用485总线架构，12个或8个无刷关节模组，通过IMU与编码器数据融合实现身体姿态，遥控器进行控制</p>
-        <div class="tech-tags">
-          <span class="tag">STM32</span>
-          <span class="tag">RS485总线</span>
-          <span class="tag">无刷电机</span>
-          <span class="tag">SBUS</span>
-        </div>
-      </div>
-
-      <!-- 项目卡片 2 -->
-      <div class="project-card" onclick="openModal('modal2')">
-        <h3 data-i18n="proj2-title">Op-Amp Signal Conditioning</h3>
-        <p data-i18n="proj2-desc">太阳能小车</p>
-        <div class="tech-tags">
-          <span class="tag">SolidWorks</span>
-          <span class="tag">Altium Designer</span>
-          <span class="tag">Keil5调试</span>
-          <span class="tag">stm32cubeMAX</span>
-        </div>
-      </div>
-
-      <!-- 项目卡片 3 -->
-      <div class="project-card" onclick="openModal('modal3')">
-        <h3 data-i18n="proj3-title">Drone Flight Controller</h3>
-        <p data-i18n="proj3-desc">高速PCB绘制</p>
-        <div class="tech-tags">
-          <span class="tag">嘉立创EDA</span>
-          <span class="tag">DDR3内存</span>
-          <span class="tag">HDMI接口</span>
-          <span class="tag">电源设计</span>
-        </div>
-      </div>
-    </section>
-    <!-- 项目卡片 4 -->
-    <div class="project-card" onclick="openModal('modal4')">
-      <h3 data-i18n="proj4-title">无人机飞控系统</h3>
-      <p data-i18n="proj4-desc">多余度的无人机飞控系统硬件设计</p>
-      <div class="tech-tags">
-        <span class="tag">Altium Designer</span>
-        <span class="tag">防水结构设计</span>
-        <span class="tag">焊接与调试</span>
-        <span class="tag">流程化管理</span>
-      </div>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="#projects" class="nav-link">项目</a>
+      <a href="#about" class="nav-link">关于我</a>
+      <a href="#contact" class="nav-link">联系我</a>
     </div>
-    </section>
-    <footer>
-      <p data-i18n="footer">© 2023 WangGaoshuan. All rights reserved.</p>
-    </footer>
-  </div>
+    <div class="action-buttons">
+      <button class="action-btn" id="languageBtn">English</button>
+      <button class="action-btn" id="themeBtn">🌞</button>
+    </div>
+  </nav>
 
-  <!-- ============= 模态框1 ============= -->
+  <header>
+    <div class="container">
+      <h1>个人主页</h1>
+      <p class="subtitle">嵌入式系统工程师 | 19929138242@163.com</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="projects" class="projects-section">
+      <div class="projects-grid">
+        <!-- 项目1：四足机器人 -->
+        <div class="project-card fade-in" onclick="openModal('modal1')">
+          <img src="images/robot.jpg" alt="四足机器人" class="project-image">
+          <h2 class="project-title">四足机器人</h2>
+          <p class="project-description">基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。</p>
+          <div class="tech-stack">
+            <span class="tech-tag">STM32</span>
+            <span class="tech-tag">无刷电机</span>
+            <span class="tech-tag">485总线</span>
+            <span class="tech-tag">SBUS遥控</span>
+          </div>
+        </div>
+
+        <!-- 项目2：太阳能小车 -->
+        <div class="project-card fade-in" onclick="openModal('modal2')">
+          <img src="images/solar.jpg" alt="太阳能小车" class="project-image">
+          <h2 class="project-title">太阳能小车</h2>
+          <p class="project-description">设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛，实现自主循迹功能。</p>
+          <div class="tech-stack">
+            <span class="tech-tag">超级电容</span>
+            <span class="tech-tag">UID标签</span>
+            <span class="tech-tag">keil5调试</span>
+            <span class="tech-tag">SolidWorks</span>
+          </div>
+        </div>
+
+        <!-- 项目3：6层PCB绘制 -->
+        <div class="project-card fade-in" onclick="openModal('modal3')">
+          <img src="images/pcb.jpg" alt="6层PCB绘制" class="project-image">
+          <h2 class="project-title">6层PCB绘制</h2>
+          <p class="project-description">基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板。</p>
+          <div class="tech-stack">
+            <span class="tech-tag">DDR3内存</span>
+            <span class="tech-tag">阻抗匹配</span>
+            <span class="tech-tag">HDMI接口</span>
+            <span class="tech-tag">嘉立创EDA</span>
+          </div>
+        </div>
+
+        <!-- 项目4：无人机飞控系统 -->
+        <div class="project-card fade-in" onclick="openModal('modal4')">
+          <img src="images/drone.jpg" alt="无人机飞控系统" class="project-image">
+          <h2 class="project-title">无人机飞控系统</h2>
+          <p class="project-description">参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。</p>
+          <div class="tech-stack">
+            <span class="tech-tag">冗余设计</span>
+            <span class="tech-tag">结构设计</span>
+            <span class="tech-tag">Altium Designer</span>
+            <span class="tech-tag">实习经历</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-text">
+            <h2 class="about-title">关于我</h2>
+            <p class="about-description">
+              我是一名嵌入式系统工程师，专注于硬件设计和嵌入式系统开发。拥有丰富的项目经验，包括四足机器人、太阳能小车、PCB设计和无人机飞控系统等。
+            </p>
+            <p class="about-description">
+              我热爱技术创新，善于解决复杂的工程问题，并且具有良好的团队合作精神。我相信通过不断学习和实践，可以创造出更优秀的嵌入式系统解决方案。
+            </p>
+            <div class="skills">
+              <h3 class="skills-title">专业技能</h3>
+              <div class="skills-list">
+                <span class="skill-item">STM32</span>
+                <span class="skill-item">Altium Designer</span>
+                <span class="skill-item">嘉立创EDA</span>
+                <span class="skill-item">SolidWorks</span>
+                <span class="skill-item">Keil5</span>
+                <span class="skill-item">嵌入式C/C++</span>
+                <span class="skill-item">FPGA设计</span>
+                <span class="skill-item">PCB设计</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <h2 class="contact-title">联系我</h2>
+      <div class="contact-card">
+        <div class="contact-email">
+          <a href="mailto:19929138242@163.com">19929138242@163.com</a>
+        </div>
+        <p class="contact-message">
+          如果您对我的项目感兴趣，或者有任何合作机会，欢迎通过邮箱与我联系。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 模态框1：四足机器人 -->
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <button class="close-modal" onclick="closeModal('modal1')">&times;</button>
-      <h2 data-i18n="modal1-title">四足机器人</h2>
-
-      <div class="modal-section">
-        <p data-i18n="modal1-desc1">基于STM32F407VET6主控</p>
-        <p data-i18n="modal1-desc2"><strong>核心功能：</strong>...</p>
-      </div>
-
-      <img src="images/proj1-main.jpg" alt="环境监测站实物" class="modal-img">
-
-      <div class="modal-section">
-        <h3 data-i18n="modal1-tech">关键技术</h3>
-        <div class="tech-list">...</div>
-      </div>
-
-      <div class="modal-section">
-        <h3 data-i18n="modal1-gallery">项目图集</h3>
-        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-          <img src="images/proj1-pcb.jpg" class="modal-img" style="max-height:150px">
-          <img src="images/proj1-assembly.jpg" class="modal-img" style="max-height:150px">
-          <img src="images/proj1-test.jpg" class="modal-img" style="max-height:150px">
+      <span class="close" onclick="closeModal('modal1')">&times;</span>
+      <h2 class="modal-title">四足机器人</h2>
+      <div class="image-slider">
+        <div class="slider-container">
+          <div class="slider-images" id="slider1">
+            <img src="images/robot1.jpg" alt="四足机器人1" class="slider-image">
+            <img src="images/robot2.jpg" alt="四足机器人2" class="slider-image">
+            <img src="images/robot3.jpg" alt="四足机器人3" class="slider-image">
+          </div>
+          <button class="slider-btn prev" onclick="prevSlide('slider1')">&lt;</button>
+          <button class="slider-btn next" onclick="nextSlide('slider1')">&gt;</button>
+          <div class="slider-indicators" id="indicators1">
+            <div class="slider-indicator active" onclick="goToSlide('slider1', 0)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider1', 1)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider1', 2)"></div>
+          </div>
         </div>
+      </div>
+      <p class="modal-desc">
+        充分调研了当前市场上的四足机器人设计及设计需求，电机采用宇树GO-M8010-6永磁同步电机，绘制分电板，用来设计整体硬件架构，主控使用嘉立创EDA基于STM32设计RS-485,CAN,UART总线,IIC总线的四层PCB板，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。
+      </p>
+      <div class="modal-tech">关键技术：4层PCB设计，运动学正解，运动学逆解，IMU,SBUS通信协议</div>
+      <div class="tech-stack modal-tech-list">
+        <span class="tech-tag">STM32</span>
+        <span class="tech-tag">无刷电机+IMU融合</span>
+        <span class="tech-tag">485总线</span>
+        <span class="tech-tag">SBUS遥控</span>
+        <span class="tech-tag">嘉立创EDA</span>
       </div>
     </div>
   </div>
 
-  <!-- ============= 模态框2 ============= -->
+  <!-- 模态框2：太阳能小车 -->
   <div id="modal2" class="modal">
     <div class="modal-content">
-      <button class="close-modal" onclick="closeModal('modal2')">&times;</button>
-      <h2 data-i18n="modal2-title">太阳能小车</h2>
-
-      <div class="modal-section">
-        <p data-i18n="modal2-desc">
-          机械设计方面，采用SolidWorks进行车体建模，优化结构以降低重心并提升稳定性。电路设计方面，使用Altium
-          Designer绘制PCB，集成太阳能板充电管理、电机驱动和传感器接口。软件开发方面，基于STM32平台编写控制程序，实现循迹算法和能量管理策略。通过多轮测试与调试，最终成功完成比赛任务，并获得优异成绩。
-        </p>
-      </div>
-
-      <img src="https://via.placeholder.com/800x400/2a2a2a/8a2be2?text=Solar+Car+Design" alt="项目2" class="modal-img">
-
-      <div class="modal-section">
-        <h3 data-i18n="modal2-tech">关键技术</h3>
-        <div class="tech-list">
-          <span class="tech-tag" data-i18n="tag-opamp">SolidWorks</span>
-          <span class="tech-tag" data-i18n="tag-filter">Altium Designer</span>
-          <span class="tech-tag" data-i18n="tag-noise">STM32控制</span>
-          <span class="tech-tag" data-i18n="tag-measure">超级电容</span>
+      <span class="close" onclick="closeModal('modal2')">&times;</span>
+      <h2 class="modal-title">太阳能小车</h2>
+      <div class="image-slider">
+        <div class="slider-container">
+          <div class="slider-images" id="slider2">
+            <img src="images/solar1.jpg" alt="太阳能小车1" class="slider-image">
+            <img src="images/solar2.jpg" alt="太阳能小车2" class="slider-image">
+            <img src="images/solar3.jpg" alt="太阳能小车3" class="slider-image">
+          </div>
+          <button class="slider-btn prev" onclick="prevSlide('slider2')">&lt;</button>
+          <button class="slider-btn next" onclick="nextSlide('slider2')">&gt;</button>
+          <div class="slider-indicators" id="indicators2">
+            <div class="slider-indicator active" onclick="goToSlide('slider2', 0)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider2', 1)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider2', 2)"></div>
+          </div>
         </div>
       </div>
+      <p class="modal-desc">
+        设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛“重走长征路”主题赛道。车辆需自主循迹，精准抵达瑞金、延安等13个历史节点（初赛10固定点，决赛13随机点），融合红色文化与绿色科技，考验工程全链路能力。设计过程中，负责电路设计与调试，采用太阳能板供电，设计高效能量管理系统，确保续航能力。通过优化电机控制算法和车体结构，实现精准循迹和稳定行驶。最终成功完成比赛任务，获得优异成绩。
+      </p>
+      <div class="tech-stack modal-tech-list">
+        <span class="tech-tag">超级电容</span>
+        <span class="tech-tag">UID标签</span>
+        <span class="tech-tag">keil5调试</span>
+        <span class="tech-tag">SolidWorks</span>
+      </div>
     </div>
-  </div>
-  <div class="modal-section">
-    <h3 data-i18n="modal2-gallery">项目图集</h3>
-    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-      <img src="images/proj2-pcb.jpg" class="modal-img" style="max-height:150px">
-      <img src="images/proj2-assembly.jpg" class="modal-img" style="max-height:150px">
-      <img src="images/proj2-test.jpg" class="modal-img" style="max-height:150px">
-    </div>
-  </div>
-  </div>
   </div>
 
-  <!-- ============= 模态框3 ============= -->
+  <!-- 模态框3：6层PCB绘制 -->
   <div id="modal3" class="modal">
     <div class="modal-content">
-      <button class="close-modal" onclick="closeModal('modal3')">&times;</button>
-      <h2 data-i18n="modal3-title">6层PCB绘制</h2>
-
-      <div class="modal-section">
-        <p data-i18n="modal3-desc">
-          基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板，实现高速信号传输与电源管理。
-        </p>
-      </div>
-
-      <img src="https://via.placeholder.com/800x400/2a2a2a/32cd32?text=6-Layer+PCB+Design" alt="项目3" class="modal-img">
-
-      <div class="modal-section">
-        <h3 data-i18n="modal3-tech">关键技术</h3>
-        <div class="tech-list">
-          <span class="tech-tag" data-i18n="tag-same70">GW2A-LV18PG256C8/I7</span>
-          <span class="tech-tag" data-i18n="tag-imu">嘉立创EDA</span>
-          <span class="tech-tag" data-i18n="tag-rtos">6层PCB设计</span>
-          <span class="tech-tag" data-i18n="tag-control">高速信号传输</span>
+      <span class="close" onclick="closeModal('modal3')">&times;</span>
+      <h2 class="modal-title">6层PCB绘制</h2>
+      <div class="image-slider">
+        <div class="slider-container">
+          <div class="slider-images" id="slider3">
+            <img src="images/pcb1.jpg" alt="6层PCB绘制1" class="slider-image">
+            <img src="images/pcb2.jpg" alt="6层PCB绘制2" class="slider-image">
+            <img src="images/pcb3.jpg" alt="6层PCB绘制3" class="slider-image">
+          </div>
+          <button class="slider-btn prev" onclick="prevSlide('slider3')">&lt;</button>
+          <button class="slider-btn next" onclick="nextSlide('slider3')">&gt;</button>
+          <div class="slider-indicators" id="indicators3">
+            <div class="slider-indicator active" onclick="goToSlide('slider3', 0)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider3', 1)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider3', 2)"></div>
+          </div>
         </div>
+      </div>
+      <p class="modal-desc">基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板，实现高速信号传输与电源管理。</p>
+      <div class="tech-stack modal-tech-list">
+        <span class="tech-tag">DDR3内存</span>
+        <span class="tech-tag">阻抗匹配</span>
+        <span class="tech-tag">HDMI接口</span>
+        <span class="tech-tag">嘉立创EDA</span>
       </div>
     </div>
   </div>
 
-  <!-- ============= 模态框4 ============= -->
+  <!-- 模态框4：无人机飞控系统 -->
   <div id="modal4" class="modal">
     <div class="modal-content">
-      <button class="close-modal" onclick="closeModal('modal3')">&times;</button>
-      <h2 data-i18n="modal3-title">无人机飞控系统</h2>
-
-      <div class="modal-section">
-        <p data-i18n="modal3-desc">
-          参与到不同款式的无人机飞控系统的开发与迭代硬件设计，使用Altium
-          Designer进行设计，实现CAN,485,232,422,气压计，空速计，IMU,PWM,电压检测等接口的集成，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了飞控系统的正常运行，并成功应用于多款无人机平台，完成了基本的飞行控制功能，支持远程控制。
-        </p>
-      </div>
-
-      <img src="https://via.placeholder.com/800x400/2a2a2a/32cd32?text=Drone+Flight+Controller" alt="项目3"
-        class="modal-img">
-
-      <div class="modal-section">
-        <h3 data-i18n="modal3-tech">关键技术</h3>
-        <div class="tech-list">
-          <span class="tech-tag" data-i18n="tag-same70">Altium Designer</span>
-          <span class="tech-tag" data-i18n="tag-imu">CAN总线</span>
-          <span class="tech-tag" data-i18n="tag-rtos">485总线</span>
-          <span class="tech-tag" data-i18n="tag-control">结构设计</span>
+      <span class="close" onclick="closeModal('modal4')">&times;</span>
+      <h2 class="modal-title">无人机飞控系统</h2>
+      <div class="image-slider">
+        <div class="slider-container">
+          <div class="slider-images" id="slider4">
+            <img src="images/drone1.jpg" alt="无人机飞控系统1" class="slider-image">
+            <img src="images/drone2.jpg" alt="无人机飞控系统2" class="slider-image">
+            <img src="images/drone3.jpg" alt="无人机飞控系统3" class="slider-image">
+          </div>
+          <button class="slider-btn prev" onclick="prevSlide('slider4')">&lt;</button>
+          <button class="slider-btn next" onclick="nextSlide('slider4')">&gt;</button>
+          <div class="slider-indicators" id="indicators4">
+            <div class="slider-indicator active" onclick="goToSlide('slider4', 0)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider4', 1)"></div>
+            <div class="slider-indicator" onclick="goToSlide('slider4', 2)"></div>
+          </div>
         </div>
+      </div>
+      <p class="modal-desc">参与到不同款式的无人机飞控系统的开发与迭代硬件设计，使用Altium
+        Designer进行设计，实现CAN,485,232,422,气压计，空速计，IMU,PWM,电压检测等接口的集成，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了飞控系统的正常运行，并成功应用于多款无人机平台，完成了基本的飞行控制功能，支持远程控制。
+      </p>
+      <div class="tech-stack modal-tech-list">
+        <span class="tech-tag">冗余设计</span>
+        <span class="tech-tag">结构设计</span>
+        <span class="tech-tag">Altium Designer</span>
+        <span class="tech-tag">实习经历</span>
       </div>
     </div>
   </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2023 WangGaoshuan 保留所有权利</p>
+    </div>
+  </footer>
+
   <script>
-    // ============= 模态框控制函数 =============
-    function openModal(id) {
-      document.getElementById(id).style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+    // 模态框功能
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
     }
-    function closeModal(id) {
-      document.getElementById(id).style.display = 'none';
-      document.body.style.overflow = 'auto';
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
     }
-    // 点击背景关闭
+
+    // 点击模态框外部关闭
     window.onclick = function (event) {
-      if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-
-    // ============= 多语言数据（键名统一为连字符格式） =============
-    const translations = {
-      zh: {
-        subtitle: "嵌入式系统工程师 | 19929138242@163.com",
-        "proj1-title": "四足机器人",
-        "proj1-desc": "基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。",
-        "proj2-title": "运放信号调理电路",
-        "proj2-desc": "设计高精度运放电路，用于微弱生物电信号采集，噪声抑制达60dB。",
-        "proj3-title": "无人机飞控系统",
-        "proj3-desc": "基于ATSAME70Q21的无人机飞控系统，实现姿态解算与PID控制。",
-        footer: "© 2023 WangGaoshuan. 保留所有权利。",
-        toggleText: "English",
-        // 模态框1
-        "modal1-title": "四足机器人",
-        "modal1-desc1": "充分调研了当前市场上的四足机器人设计及设计需求，电机采用宇树GO-M8010-6永磁同步电机，绘制分电板，用来设计整体硬件架构，主控使用嘉立创EDA基于STM32设计RS-485,CAN,UART总线,IIC总线的四层PCB板，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。",
-        "modal1-desc2": "",
-        "modal1-tech": "关键技术：4层PCB设计，运动学正解，运动学逆解，IMU,SBUS通信协议",
-        "tag-stm32": "STM32",
-        "tag-sensors": "无刷电机+IMU融合",
-        "tag-485": "485总线",
-        "tag-sbus": "SBUS遥控",
-        "tag-pcb": "嘉立创EDA",
-        "modal1-gallery": "项目图集",
-        // 模态框2
-        "modal2-title": "太阳能小车",
-        "modal2-desc": "设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛“重走长征路”主题赛道。车辆需自主循迹，精准抵达瑞金、延安等13个历史节点（初赛10固定点，决赛13随机点），融合红色文化与绿色科技，考验工程全链路能力。设计过程中，负责电路设计与调试，采用太阳能板供电，设计高效能量管理系统，确保续航能力。通过优化电机控制算法和车体结构，实现精准循迹和稳定行驶。最终成功完成比赛任务，获得优异成绩。",
-        "modal2-tech": "关键技术",
-        "tag-opamp": "超级电容",
-        "tag-filter": "UID标签",
-        "tag-noise": "keil5调试",
-        "tag-measure": "SolidWorks",
-        // 模态框3
-        "modal3-title": "6层PCB绘制",
-        "modal3-desc": "基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板，实现高速信号传输与电源管理。",
-        "modal3-tech": "关键技术",
-        "tag-same70": "DDR3内存",
-        "tag-imu": "阻抗匹配",
-        "tag-rtos": "HDMI接口",
-        "tag-control": "嘉立创EDA",
-
-        // 模态框4
-        "modal4-title": "无人机飞控系统",
-        "modal4-desc": "参与到不同款式的无人机飞控系统的开发与迭代硬件设计，使用Altium Designer进行设计，实现CAN,485,232,422,气压计，空速计，IMU,PWM,电压检测等接口的集成，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了飞控系统的正常运行，并成功应用于多款无人机平台，完成了基本的飞行控制功能，支持远程控制。",
-        "modal4-tech": "关键技术",
-        "tag-same70": "冗余设计",
-        "tag-imu": "结构设计",
-        "tag-rtos": "Altium Designer",
-        "tag-control": "实习经历"
-      },
-      en: {
-        subtitle: "Embedded Systems Engineer | STM32 Specialist",
-        "proj1-title": "Smart Environmental Monitor",
-        "proj1-desc": "STM32F4-based environmental station with temperature, humidity, light and PM2.5 sensors. WiFi data upload supported.",
-        "proj2-title": "Op-Amp Signal Conditioning",
-        "proj2-desc": "Designed high-precision op-amp circuit for weak bio-signal acquisition with 60dB noise suppression.",
-        "proj3-title": "Drone Flight Controller",
-        "proj3-desc": "Drone flight controller based on ATSAME70Q21, implementing attitude calculation and PID control.",
-        footer: "© 2023 WangGaoshuan. All rights reserved.",
-        toggleText: "中文",
-        // Modal 1
-        "modal1-title": "Smart Environmental Monitor",
-        "modal1-desc1": "Based on STM32F407VGT6 with DHT22, BH1750, GP2Y1014AU0F sensors. Data uploaded to Alibaba Cloud IoT via ESP8266.",
-        "modal1-desc2": "Core features: Real-time monitoring, threshold alerts, historical data curves, mobile remote access.",
-        "modal1-tech": "Key Technologies",
-        "tag-stm32": "STM32F4",
-        "tag-sensors": "Multi-sensor Fusion",
-        "tag-wifi": "ESP8266 WiFi",
-        "tag-cloud": "Alibaba Cloud IoT",
-        "tag-pcb": "Altium Designer PCB",
-        "modal1-gallery": "Project Gallery",
-        // Modal 2
-        "modal2-title": "Op-Amp Signal Conditioning",
-        "modal2-desc": "High-precision bio-signal acquisition system with 3-stage amplification + bandpass filter. Input impedance >1GΩ, CMRR >100dB. Successfully applied to ECG/EMG acquisition. LM358 differential amplifier with RC filter network suppresses 50Hz interference, SNR improved by 15dB.",
-        "modal2-tech": "Key Technologies",
-        "tag-opamp": "LM358 Op-Amp",
-        "tag-filter": "Active Filter",
-        "tag-noise": "Noise Suppression",
-        "tag-measure": "Oscilloscope Debugging",
-        // Modal 3
-        "modal3-title": "Drone Flight Controller",
-        "modal3-desc": "Quadcopter control system based on ATSAME70Q21. Implements MPU9250 attitude calculation (complementary + Kalman filter), PID closed-loop control, ultrasonic altitude hold, optical flow positioning. RT-Thread RTOS for task scheduling. nRF24L01 for 2.4GHz remote control. Flight time: 18 minutes.",
-        "modal3-tech": "Key Technologies",
-        "tag-same70": "ATSAME70",
-        "tag-imu": "MPU9250 IMU",
-        "tag-rtos": "RT-Thread",
-        "tag-control": "PID Control"
-      }
-    };
-
-    // 初始化语言
-    let currentLang = localStorage.getItem('site-lang') ||
-      (navigator.language.startsWith('zh') ? 'zh' : 'en');
-
-    // 应用翻译
-    function applyLanguage(lang) {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-          el.textContent = translations[lang][key];
+      var modals = document.getElementsByClassName("modal");
+      for (var i = 0; i < modals.length; i++) {
+        if (event.target == modals[i]) {
+          modals[i].style.display = "none";
         }
-      });
-      document.getElementById('lang-toggle').textContent = translations[lang].toggleText;
-      localStorage.setItem('site-lang', lang);
+      }
     }
 
-    // 语言切换
-    document.getElementById('lang-toggle').addEventListener('click', () => {
-      currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      applyLanguage(currentLang);
+    // 语言切换功能
+    let currentLanguage = 'zh';
+    document.getElementById('languageBtn').addEventListener('click', function () {
+      if (currentLanguage === 'zh') {
+        // 切换到英文
+        document.documentElement.lang = 'en';
+        document.querySelector('h1').textContent = 'Personal Homepage';
+        document.querySelector('.subtitle').textContent = 'Embedded Systems Engineer | 19929138242@163.com';
+        document.querySelectorAll('.nav-link')[0].textContent = 'Projects';
+        document.querySelectorAll('.nav-link')[1].textContent = 'About Me';
+        document.querySelectorAll('.nav-link')[2].textContent = 'Contact';
+        document.querySelectorAll('.project-title')[0].textContent = 'Quadruped Robot';
+        document.querySelectorAll('.project-title')[1].textContent = 'Solar Car';
+        document.querySelectorAll('.project-title')[2].textContent = '6-Layer PCB Design';
+        document.querySelectorAll('.project-title')[3].textContent = 'UAV Flight Control System';
+        document.querySelectorAll('.project-description')[0].textContent = 'STM32-based quadruped robot system, completed basic walking, turning and obstacle avoidance functions, supporting remote control.';
+        document.querySelectorAll('.project-description')[1].textContent = 'Designed solar electric vehicle, participated in 2025 China University Student Engineering Practice and Innovation Ability Competition, realized autonomous tracking function.';
+        document.querySelectorAll('.project-description')[2].textContent = 'Based on GW2A-LV18PG256C8/I7 FPGA, designed 6-layer PCB board using JLCEDA.';
+        document.querySelectorAll('.project-description')[3].textContent = 'Participated in the development and iterative hardware design of different types of UAV flight control systems, realizing multiple interface integration.';
+        document.querySelector('.about-title').textContent = 'About Me';
+        document.querySelectorAll('.about-description')[0].textContent = 'I am an embedded systems engineer, focusing on hardware design and embedded system development. I have rich project experience, including quadruped robots, solar cars, PCB design and UAV flight control systems.';
+        document.querySelectorAll('.about-description')[1].textContent = 'I love technological innovation, am good at solving complex engineering problems, and have good team spirit. I believe that through continuous learning and practice, I can create better embedded system solutions.';
+        document.querySelector('.skills-title').textContent = 'Professional Skills';
+        document.querySelector('.contact-title').textContent = 'Contact Me';
+        document.querySelector('.contact-message').textContent = 'If you are interested in my projects or have any cooperation opportunities, please feel free to contact me via email.';
+        document.querySelector('footer p').textContent = '© 2023 WangGaoshuan All Rights Reserved';
+        document.getElementById('languageBtn').textContent = '中文';
+        currentLanguage = 'en';
+      } else {
+        // 切换到中文
+        document.documentElement.lang = 'zh-CN';
+        document.querySelector('h1').textContent = '个人主页';
+        document.querySelector('.subtitle').textContent = '嵌入式系统工程师 | 19929138242@163.com';
+        document.querySelectorAll('.nav-link')[0].textContent = '项目';
+        document.querySelectorAll('.nav-link')[1].textContent = '关于我';
+        document.querySelectorAll('.nav-link')[2].textContent = '联系我';
+        document.querySelectorAll('.project-title')[0].textContent = '四足机器人';
+        document.querySelectorAll('.project-title')[1].textContent = '太阳能小车';
+        document.querySelectorAll('.project-title')[2].textContent = '6层PCB绘制';
+        document.querySelectorAll('.project-title')[3].textContent = '无人机飞控系统';
+        document.querySelectorAll('.project-description')[0].textContent = '基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。';
+        document.querySelectorAll('.project-description')[1].textContent = '设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛，实现自主循迹功能。';
+        document.querySelectorAll('.project-description')[2].textContent = '基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板。';
+        document.querySelectorAll('.project-description')[3].textContent = '参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。';
+        document.querySelector('.about-title').textContent = '关于我';
+        document.querySelectorAll('.about-description')[0].textContent = '我是一名嵌入式系统工程师，专注于硬件设计和嵌入式系统开发。拥有丰富的项目经验，包括四足机器人、太阳能小车、PCB设计和无人机飞控系统等。';
+        document.querySelectorAll('.about-description')[1].textContent = '我热爱技术创新，善于解决复杂的工程问题，并且具有良好的团队合作精神。我相信通过不断学习和实践，可以创造出更优秀的嵌入式系统解决方案。';
+        document.querySelector('.skills-title').textContent = '专业技能';
+        document.querySelector('.contact-title').textContent = '联系我';
+        document.querySelector('.contact-message').textContent = '如果您对我的项目感兴趣，或者有任何合作机会，欢迎通过邮箱与我联系。';
+        document.querySelector('footer p').textContent = '© 2023 WangGaoshuan 保留所有权利';
+        document.getElementById('languageBtn').textContent = 'English';
+        currentLanguage = 'zh';
+      }
     });
 
-    // 首次加载
-    applyLanguage(currentLang);
+    // 主题切换功能
+    let currentTheme = 'dark';
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      if (currentTheme === 'dark') {
+        // 切换到浅色主题
+        document.body.classList.add('light');
+        document.getElementById('themeBtn').textContent = '🌙';
+        currentTheme = 'light';
+      } else {
+        // 切换到深色主题
+        document.body.classList.remove('light');
+        document.getElementById('themeBtn').textContent = '🌞';
+        currentTheme = 'dark';
+      }
+    });
 
-    // 深色模式自动切换
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.setAttribute('data-theme', 'dark');
+    // 图片轮播功能
+    let currentSlides = {
+      'slider1': 0,
+      'slider2': 0,
+      'slider3': 0,
+      'slider4': 0
+    };
+
+    function updateSlider(sliderId) {
+      const slider = document.getElementById(sliderId);
+      const slides = slider.children;
+      const indicators = document.getElementById(`indicators${sliderId.slice(-1)}`).children;
+      const currentSlide = currentSlides[sliderId];
+
+      // 更新幻灯片位置
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      // 更新指示器状态
+      for (let i = 0; i < indicators.length; i++) {
+        indicators[i].classList.remove('active');
+      }
+      indicators[currentSlide].classList.add('active');
     }
+
+    function nextSlide(sliderId) {
+      const slider = document.getElementById(sliderId);
+      const slidesCount = slider.children.length;
+      currentSlides[sliderId] = (currentSlides[sliderId] + 1) % slidesCount;
+      updateSlider(sliderId);
+    }
+
+    function prevSlide(sliderId) {
+      const slider = document.getElementById(sliderId);
+      const slidesCount = slider.children.length;
+      currentSlides[sliderId] = (currentSlides[sliderId] - 1 + slidesCount) % slidesCount;
+      updateSlider(sliderId);
+    }
+
+    function goToSlide(sliderId, index) {
+      currentSlides[sliderId] = index;
+      updateSlider(sliderId);
+    }
+
+    // 自动轮播
+    setInterval(() => {
+      Object.keys(currentSlides).forEach(sliderId => {
+        nextSlide(sliderId);
+      });
+    }, 5000);
+
+    // 淡入动画
+    document.addEventListener('DOMContentLoaded', function () {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      fadeElements.forEach((element, index) => {
+        element.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
   </script>
 </body>
 
