@@ -1,1001 +1,260 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>个人主页 - 嵌入式系统工程师</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg-primary: #121212;
-      --bg-secondary: #1a1a1a;
-      --bg-card: #1e1e1e;
-      --text-primary: #ffffff;
-      --text-secondary: #a0a0a0;
-      --accent-color: #64ffda;
-      --accent-bg: rgba(100, 255, 218, 0.1);
-      --border-color: #333333;
-      --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    /* 浅色主题 */
-    body.light {
-      --bg-primary: #f5f5f5;
-      --bg-secondary: #ffffff;
-      --bg-card: #f8f9fa;
-      --text-primary: #333333;
-      --text-secondary: #666666;
-      --accent-color: #009688;
-      --accent-bg: rgba(0, 150, 136, 0.1);
-      --border-color: #e0e0e0;
-      --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      transition: all 0.3s ease;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      text-align: center;
-      padding: 60px 0 40px;
-      background-color: var(--bg-secondary);
-      margin-bottom: 40px;
-      border-radius: 0 0 20px 20px;
-      box-shadow: var(--shadow);
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      color: var(--accent-color);
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-    }
-
-    /* 导航栏样式 */
-    .navbar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: var(--bg-secondary);
-      padding: 15px 20px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 100;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-link {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      position: relative;
-      font-size: 0.9rem;
-    }
-
-    .nav-link:hover {
-      color: var(--accent-color);
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--accent-color);
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .action-btn {
-      background-color: transparent;
-      color: var(--accent-color);
-      border: 1px solid var(--accent-color);
-      padding: 6px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.8rem;
-    }
-
-    .action-btn:hover {
-      background-color: var(--accent-bg);
-      transform: translateY(-2px);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-      margin-bottom: 60px;
-    }
-
-    .project-card {
-      background-color: var(--bg-card);
-      border-radius: 12px;
-      padding: 0;
-      transition: all 0.3s ease;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      border: 1px solid var(--border-color);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-color), transparent);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .project-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow);
-      border-color: var(--accent-color);
-    }
-
-    .project-image-container {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      overflow: hidden;
-    }
-
-    .project-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: all 0.3s ease;
-      filter: brightness(0.8);
-    }
-
-    .project-card:hover .project-image {
-      transform: scale(1.1);
-      filter: brightness(1);
-    }
-
-    .project-content {
-      padding: 30px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-title {
-      font-size: 1.4rem;
-      color: var(--accent-color);
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-
-    .project-description {
-      color: var(--text-secondary);
-      margin-bottom: 20px;
-      flex-grow: 1;
-      line-height: 1.6;
-    }
-
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tech-tag {
-      background-color: var(--accent-bg);
-      color: var(--accent-color);
-      padding: 6px 14px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .tech-tag:hover {
-      background-color: var(--accent-color);
-      color: var(--bg-primary);
-    }
-
-    .about-section {
-      background-color: var(--bg-secondary);
-      padding: 60px 0;
-      margin-bottom: 60px;
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .about-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .about-text {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .about-title {
-      font-size: 2rem;
-      color: var(--accent-color);
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
-
-    .about-description {
-      color: var(--text-secondary);
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    .skills {
-      margin-top: 30px;
-    }
-
-    .skills-title {
-      font-size: 1.2rem;
-      color: var(--accent-color);
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-
-    .skills-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .skill-item {
-      background-color: var(--accent-bg);
-      color: var(--accent-color);
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .skill-item:hover {
-      background-color: var(--accent-color);
-      color: var(--bg-primary);
-      transform: translateY(-2px);
-    }
-
-    .contact-section {
-      margin-bottom: 60px;
-    }
-
-    .contact-title {
-      font-size: 2rem;
-      color: var(--accent-color);
-      margin-bottom: 30px;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    .contact-card {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: var(--bg-card);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      text-align: center;
-    }
-
-    .contact-email {
-      font-size: 1.2rem;
-      color: var(--accent-color);
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    .contact-email a {
-      color: var(--accent-color);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .contact-email a:hover {
-      text-decoration: underline;
-      transform: scale(1.05);
-      display: inline-block;
-    }
-
-    .contact-message {
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px 0;
-      background-color: var(--bg-secondary);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      border-radius: 20px 20px 0 0;
-      box-shadow: var(--shadow);
-    }
-
-    /* 模态框样式 */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-    }
-
-    .modal-content {
-      background-color: var(--bg-card);
-      margin: 10% auto;
-      padding: 40px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 800px;
-      position: relative;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      animation: modalSlideIn 0.3s ease;
-    }
-
-    @keyframes modalSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .close {
-      color: var(--text-secondary);
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: var(--accent-color);
-      transform: scale(1.2);
-    }
-
-    .modal-title {
-      font-size: 1.8rem;
-      color: var(--accent-color);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    /* 图片轮播样式 */
-    .image-slider {
-      position: relative;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .slider-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-    }
-
-    .slider-images {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-
-    .slider-image {
-      min-width: 100%;
-      height: 400px;
-      object-fit: cover;
-      filter: brightness(0.9);
-    }
-
-    .slider-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    .slider-btn:hover {
-      background-color: var(--accent-color);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .slider-btn.prev {
-      left: 10px;
-    }
-
-    .slider-btn.next {
-      right: 10px;
-    }
-
-    .slider-indicators {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 5px;
-    }
-
-    .slider-indicator {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .slider-indicator.active {
-      background-color: var(--accent-color);
-    }
-
-    /* 动画效果 */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in {
-      animation: fadeIn 0.6s ease forwards;
-    }
-
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px;
-      }
-
-      .nav-links {
-        gap: 15px;
-      }
-
-      header {
-        padding: 80px 0 40px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      .project-image-container {
-        height: 150px;
-      }
-
-      .project-content {
-        padding: 20px;
-      }
-
-      .modal-content {
-        width: 95%;
-        padding: 20px;
-        margin: 20% auto;
-      }
-
-      .slider-image {
-        height: 200px;
-      }
-
-      .about-content {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .contact-card {
-        padding: 30px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="王高栓 — 嵌入式系统工程师个人作品集 / Wang Gaoshuan — Embedded Systems Engineer Portfolio" />
+  <title>王高栓 · 嵌入式系统工程师 | Wang Gaoshuan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <!-- 导航栏 -->
-  <nav class="navbar">
-    <div class="nav-links">
-      <a href="#projects" class="nav-link">项目</a>
-      <a href="#about" class="nav-link">关于我</a>
-      <a href="#contact" class="nav-link">联系我</a>
-    </div>
-    <div class="action-buttons">
-      <button class="action-btn" id="languageBtn">English</button>
-      <button class="action-btn" id="themeBtn">🌞</button>
-    </div>
-  </nav>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
 
-  <header>
-    <div class="container">
-      <h1>个人主页</h1>
-      <p class="subtitle">嵌入式系统工程师 | 19929138242@163.com</p>
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <span class="logo-mark">WG</span>
+        <span class="logo-text">
+          <span class="lang-zh">王高栓</span>
+          <span class="lang-en">Wang Gaoshuan</span>
+        </span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active"><span class="lang-zh">首页</span><span class="lang-en">Home</span></a>
+        <a href="#projects" class="nav-link"><span class="lang-zh">项目</span><span class="lang-en">Projects</span></a>
+        <a href="#about" class="nav-link"><span class="lang-zh">关于</span><span class="lang-en">About</span></a>
+        <a href="#contact" class="nav-link"><span class="lang-zh">联系</span><span class="lang-en">Contact</span></a>
+      </nav>
+      <div class="nav-controls">
+        <button class="icon-btn lang-toggle" id="langToggle" aria-label="Switch language" title="Language">
+          <span class="lang-zh">EN</span><span class="lang-en">中</span>
+        </button>
+        <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section id="projects" class="projects-section">
-      <div class="projects-grid">
-        <!-- 项目1：四足机器人 -->
-        <div class="project-card fade-in" onclick="openModal('modal1')">
-          <div class="project-image-container">
-            <img src="images/robot.jpg" alt="四足机器人" class="project-image">
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-text reveal">
+          <span class="hero-badge"><span class="dot"></span><span class="lang-zh">可接项目合作</span><span class="lang-en">Available for projects</span></span>
+          <h1 class="hero-name"><span class="lang-zh">王高栓</span><span class="lang-en">Wang Gaoshuan</span></h1>
+          <h2 class="hero-title"><span class="lang-zh">嵌入式系统工程师</span><span class="lang-en">Embedded Systems Engineer</span></h2>
+          <p class="hero-desc">
+            <span class="lang-zh">专注于硬件设计与嵌入式系统开发，擅长从原理图到成品的全流程工程实现。热爱技术创新，乐于解决复杂的工程问题。</span>
+            <span class="lang-en">Focused on hardware design and embedded development, skilled in full-cycle engineering from schematics to finished products. Passionate about innovation and solving complex engineering problems.</span>
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary"><span class="lang-zh">查看作品</span><span class="lang-en">View Projects</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="mailto:19929138242@163.com" class="btn btn-ghost"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>19929138242@163.com</a>
           </div>
-          <div class="project-content">
-            <h2 class="project-title">四足机器人</h2>
-            <p class="project-description">基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。</p>
-            <div class="tech-stack">
-              <span class="tech-tag">STM32</span>
-              <span class="tech-tag">无刷电机</span>
-              <span class="tech-tag">485总线</span>
-              <span class="tech-tag">SBUS遥控</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 项目2：太阳能小车 -->
-        <div class="project-card fade-in" onclick="openModal('modal2')">
-          <div class="project-image-container">
-            <img src="images/solar.jpg" alt="太阳能小车" class="project-image">
-          </div>
-          <div class="project-content">
-            <h2 class="project-title">太阳能小车</h2>
-            <p class="project-description">设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛，实现自主循迹功能。</p>
-            <div class="tech-stack">
-              <span class="tech-tag">超级电容</span>
-              <span class="tech-tag">UID标签</span>
-              <span class="tech-tag">keil5调试</span>
-              <span class="tech-tag">SolidWorks</span>
-            </div>
+          <div class="hero-stats">
+            <div class="stat"><div class="stat-num">4+</div><div class="stat-label"><span class="lang-zh">完成项目</span><span class="lang-en">Projects</span></div></div>
+            <div class="stat"><div class="stat-num">8</div><div class="stat-label"><span class="lang-zh">专业技能</span><span class="lang-en">Skills</span></div></div>
+            <div class="stat"><div class="stat-num">100%</div><div class="stat-label"><span class="lang-zh">工程热情</span><span class="lang-en">Passion</span></div></div>
           </div>
         </div>
-
-        <!-- 项目3：6层PCB绘制 -->
-        <div class="project-card fade-in" onclick="openModal('modal3')">
-          <div class="project-image-container">
-            <img src="images/pcb.jpg" alt="6层PCB绘制" class="project-image">
+        <div class="hero-visual reveal">
+          <div class="avatar-ring">
+            <div class="avatar-ring-inner"></div>
+            <div class="avatar avatar-monogram">WG</div>
           </div>
-          <div class="project-content">
-            <h2 class="project-title">6层PCB绘制</h2>
-            <p class="project-description">基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板。</p>
-            <div class="tech-stack">
-              <span class="tech-tag">DDR3内存</span>
-              <span class="tech-tag">阻抗匹配</span>
-              <span class="tech-tag">HDMI接口</span>
-              <span class="tech-tag">嘉立创EDA</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 项目4：无人机飞控系统 -->
-        <div class="project-card fade-in" onclick="openModal('modal4')">
-          <div class="project-image-container">
-            <img src="images/drone.jpg" alt="无人机飞控系统" class="project-image">
-          </div>
-          <div class="project-content">
-            <h2 class="project-title">无人机飞控系统</h2>
-            <p class="project-description">参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。</p>
-            <div class="tech-stack">
-              <span class="tech-tag">冗余设计</span>
-              <span class="tech-tag">结构设计</span>
-              <span class="tech-tag">Altium Designer</span>
-              <span class="tech-tag">实习经历</span>
-            </div>
-          </div>
+          <div class="float-card float-card-1"><div class="fc-icon">🤖</div><div class="fc-text"><span class="lang-zh">四足机器人</span><span class="lang-en">Quadruped Robot</span></div></div>
+          <div class="float-card float-card-2"><div class="fc-icon">🚁</div><div class="fc-text"><span class="lang-zh">无人机飞控</span><span class="lang-en">Drone FCU</span></div></div>
+          <div class="float-card float-card-3"><div class="fc-icon">☀️</div><div class="fc-text"><span class="lang-zh">太阳能小车</span><span class="lang-en">Solar Car</span></div></div>
         </div>
       </div>
+      <a href="#projects" class="scroll-hint" aria-label="scroll"><span></span></a>
     </section>
 
-    <section id="about" class="about-section">
+    <!-- Projects -->
+    <section class="section" id="projects">
       <div class="container">
-        <div class="about-content">
-          <div class="about-text">
-            <h2 class="about-title">关于我</h2>
-            <p class="about-description">
-              我是一名嵌入式系统工程师，专注于硬件设计和嵌入式系统开发。拥有丰富的项目经验，包括四足机器人、太阳能小车、PCB设计和无人机飞控系统等。
-            </p>
-            <p class="about-description">
-              我热爱技术创新，善于解决复杂的工程问题，并且具有良好的团队合作精神。我相信通过不断学习和实践，可以创造出更优秀的嵌入式系统解决方案。
-            </p>
-            <div class="skills">
-              <h3 class="skills-title">专业技能</h3>
-              <div class="skills-list">
-                <span class="skill-item">STM32</span>
-                <span class="skill-item">Altium Designer</span>
-                <span class="skill-item">嘉立创EDA</span>
-                <span class="skill-item">SolidWorks</span>
-                <span class="skill-item">Keil5</span>
-                <span class="skill-item">嵌入式C/C++</span>
-                <span class="skill-item">FPGA设计</span>
-                <span class="skill-item">PCB设计</span>
-              </div>
+        <div class="section-head reveal">
+          <span class="section-tag">/ 01</span>
+          <h2 class="section-title"><span class="lang-zh">精选项目</span><span class="lang-en">Featured Projects</span></h2>
+          <p class="section-sub"><span class="lang-zh">从机器人到飞控，从硬件到系统的工程实践。点击卡片查看详情与图片。</span><span class="lang-en">Engineering practice from robots to flight controllers. Click a card for details and images.</span></p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project 1: Quadruped Robot -->
+          <article class="project-card reveal" data-images='["images/robot.jpg","images/robot1.jpg"]'>
+            <div class="project-media" style="--accent:#38bdf8;">
+              <img src="images/robot.jpg" alt="四足机器人 Quadruped Robot" loading="lazy" />
+              <span class="project-index">01</span>
+              <span class="media-zoom"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
             </div>
+            <div class="project-body">
+              <h3 class="project-title"><span class="lang-zh">四足机器人</span><span class="lang-en">Quadruped Robot</span></h3>
+              <p class="project-desc"><span class="lang-zh">基于 STM32 的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。</span><span class="lang-en">STM32-based quadruped robot system, completed basic walking, turning and obstacle avoidance functions, supporting remote control.</span></p>
+              <div class="tags">
+                <span class="tag">STM32</span>
+                <span class="tag"><span class="lang-zh">无刷电机+IMU融合</span><span class="lang-en">BLDC + IMU Fusion</span></span>
+                <span class="tag">RS-485</span>
+                <span class="tag">SBUS</span>
+                <span class="tag"><span class="lang-zh">嘉立创 EDA</span><span class="lang-en">JLC EDA</span></span>
+              </div>
+              <button class="link-btn" data-open-detail><span class="lang-zh">查看详情</span><span class="lang-en">Learn more</span> →</button>
+            </div>
+            <div class="project-detail" hidden>
+              <p><span class="lang-zh">充分调研了当前市场上的四足机器人设计及设计需求，电机采用宇树 GO-M8010-6 永磁同步电机，绘制分电板，用来设计整体硬件架构。主控使用嘉立创 EDA 基于 STM32 设计 RS-485、CAN、UART、IIC 总线的四层 PCB 板，完成了电路设计、PCB 绘制、焊接软硬件调试等工作，最终实现了四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。</span><span class="lang-en">After thorough research on current quadruped robot designs and requirements, the robot uses Unitree GO-M8010-6 permanent magnet synchronous motors. A power distribution board was designed for the overall hardware architecture. The main controller is a 4-layer PCB based on STM32 designed with JLC EDA, integrating RS-485, CAN, UART, and IIC buses. Work included circuit design, PCB layout, soldering, and software/hardware debugging. The final system achieves basic walking, turning, and obstacle avoidance with remote control.</span></p>
+              <p class="detail-key"><strong><span class="lang-zh">关键技术</span><span class="lang-en">Key technologies</span>：</strong><span class="lang-zh">4 层 PCB 设计，运动学正解，运动学逆解，IMU，SBUS 通信协议</span><span class="lang-en">4-layer PCB design, forward kinematics, inverse kinematics, IMU, SBUS communication protocol</span></p>
+            </div>
+          </article>
+
+          <!-- Project 2: Solar Car -->
+          <article class="project-card reveal" data-images='["images/solar.jpg","images/solar1.png","images/solar2.png"]'>
+            <div class="project-media" style="--accent:#fbbf24;">
+              <img src="images/solar.jpg" alt="太阳能小车 Solar Car" loading="lazy" />
+              <span class="project-index">02</span>
+              <span class="media-zoom"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title"><span class="lang-zh">太阳能小车</span><span class="lang-en">Solar-Powered Car</span></h3>
+              <p class="project-desc"><span class="lang-zh">设计太阳能电动车，参与 2025 中国大学生工程实践与创新能力大赛，实现自主循迹功能。</span><span class="lang-en">Designed a solar electric vehicle for the 2025 China College Students Engineering Practice & Innovation Competition, with autonomous line tracking.</span></p>
+              <div class="tags">
+                <span class="tag"><span class="lang-zh">超级电容</span><span class="lang-en">Supercapacitor</span></span>
+                <span class="tag">UID</span>
+                <span class="tag">Keil5</span>
+                <span class="tag">SolidWorks</span>
+              </div>
+              <button class="link-btn" data-open-detail><span class="lang-zh">查看详情</span><span class="lang-en">Learn more</span> →</button>
+            </div>
+            <div class="project-detail" hidden>
+              <p><span class="lang-zh">设计太阳能电动车，参与 2025 中国大学生工程实践与创新能力大赛"重走长征路"主题赛道。车辆需自主循迹，精准抵达瑞金、延安等 13 个历史节点（初赛 10 固定点，决赛 13 随机点），融合红色文化与绿色科技，考验工程全链路能力。设计过程中，负责电路设计与调试，采用太阳能板供电，设计高效能量管理系统，确保续航能力。通过优化电机控制算法和车体结构，实现精准循迹和稳定行驶。最终成功完成比赛任务，获得优异成绩。</span><span class="lang-en">Designed a solar-powered electric vehicle for the "Retracing the Long March" track of the 2025 China College Students Engineering Practice and Innovation Competition. The vehicle must autonomously track a path and accurately reach 13 historical nodes such as Ruijin and Yan'an (10 fixed points in the preliminary round, 13 random points in the final), blending revolutionary culture with green technology and testing full-cycle engineering capability. Responsible for circuit design and debugging: powered by solar panels with an efficient energy management system to ensure endurance. By optimizing the motor control algorithm and vehicle structure, precise tracking and stable driving were achieved. The competition task was completed with excellent results.</span></p>
+            </div>
+          </article>
+
+          <!-- Project 3: 6-Layer PCB -->
+          <article class="project-card reveal" data-images='["images/pcb.jpg","images/pcb1.jpg","images/pcb2.jpg","images/pcb3.jpg"]'>
+            <div class="project-media" style="--accent:#a78bfa;">
+              <img src="images/pcb.jpg" alt="6层PCB 6-Layer PCB" loading="lazy" />
+              <span class="project-index">03</span>
+              <span class="media-zoom"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title"><span class="lang-zh">6 层 PCB 绘制</span><span class="lang-en">6-Layer PCB Design</span></h3>
+              <p class="project-desc"><span class="lang-zh">基于 GW2A-LV18PG256C8/I7 的 FPGA 绘制，采用嘉立创 EDA 设计 6 层 PCB 板。</span><span class="lang-en">Designed a 6-layer PCB for an FPGA (GW2A-LV18PG256C8/I7) using JLC EDA.</span></p>
+              <div class="tags">
+                <span class="tag">DDR3</span>
+                <span class="tag"><span class="lang-zh">阻抗匹配</span><span class="lang-en">Impedance Matching</span></span>
+                <span class="tag">HDMI</span>
+                <span class="tag"><span class="lang-zh">嘉立创 EDA</span><span class="lang-en">JLC EDA</span></span>
+              </div>
+              <button class="link-btn" data-open-detail><span class="lang-zh">查看详情</span><span class="lang-en">Learn more</span> →</button>
+            </div>
+            <div class="project-detail" hidden>
+              <p><span class="lang-zh">基于 GW2A-LV18PG256C8/I7 的 FPGA 绘制，采用嘉立创 EDA 设计 6 层 PCB 板，实现高速信号传输与电源管理。</span><span class="lang-en">Designed a 6-layer PCB for the GW2A-LV18PG256C8/I7 FPGA using JLC EDA, achieving high-speed signal transmission and power management.</span></p>
+            </div>
+          </article>
+
+          <!-- Project 4: UAV Flight Control -->
+          <article class="project-card reveal" data-images='[]'>
+            <div class="project-media" style="--accent:#34d399;">
+              <div class="project-placeholder">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 4-3 2-3-2 3-4z"/><path d="M12 8v6"/><path d="M8 10l-4 2 4 2M16 10l4 2-4 2"/><circle cx="12" cy="16" r="3"/></svg>
+              </div>
+              <span class="project-index">04</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title"><span class="lang-zh">无人机飞控系统</span><span class="lang-en">UAV Flight Controller</span></h3>
+              <p class="project-desc"><span class="lang-zh">参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。</span><span class="lang-en">Participated in the development and iterative hardware design of different types of UAV flight control systems, realizing multiple interface integration.</span></p>
+              <div class="tags">
+                <span class="tag"><span class="lang-zh">冗余设计</span><span class="lang-en">Redundancy</span></span>
+                <span class="tag"><span class="lang-zh">结构设计</span><span class="lang-en">Structural Design</span></span>
+                <span class="tag">Altium Designer</span>
+                <span class="tag"><span class="lang-zh">飞控</span><span class="lang-en">FCU</span></span>
+              </div>
+              <button class="link-btn" data-open-detail><span class="lang-zh">查看详情</span><span class="lang-en">Learn more</span> →</button>
+            </div>
+            <div class="project-detail" hidden>
+              <p><span class="lang-zh">参与到不同款式的无人机飞控系统的开发与迭代硬件设计，使用 Altium Designer 进行设计，实现 CAN、485、232、422、气压计、空速计、IMU、PWM、电压检测等接口的集成，完成了电路设计、PCB 绘制、焊接软硬件调试等工作，最终实现了飞控系统的正常运行，并成功应用于多款无人机平台，完成了基本的飞行控制功能，支持远程控制。</span><span class="lang-en">Participated in the development and iterative hardware design of various UAV flight control systems, designed with Altium Designer. Integrated interfaces including CAN, RS-485, RS-232, RS-422, barometer, airspeed sensor, IMU, PWM, and voltage detection. Completed circuit design, PCB layout, soldering, and software/hardware debugging. The flight control system runs normally and has been successfully applied to multiple UAV platforms, achieving basic flight control with remote support.</span></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section section-alt" id="about">
+      <div class="container about-grid">
+        <div class="about-text reveal">
+          <span class="section-tag">/ 02</span>
+          <h2 class="section-title"><span class="lang-zh">关于我</span><span class="lang-en">About Me</span></h2>
+          <p><span class="lang-zh">我是一名嵌入式系统工程师，专注于硬件设计和嵌入式系统开发。拥有丰富的项目经验，包括四足机器人、太阳能小车、PCB 设计和无人机飞控系统等。</span><span class="lang-en">I am an embedded systems engineer, focusing on hardware design and embedded system development. I have rich project experience, including quadruped robots, solar cars, PCB design and UAV flight control systems.</span></p>
+          <p><span class="lang-zh">我热爱技术创新，善于解决复杂的工程问题，并且具有良好的团队合作精神。我相信通过不断学习和实践，可以创造出更优秀的嵌入式系统解决方案。</span><span class="lang-en">I love technological innovation, am good at solving complex engineering problems, and have good team spirit. I believe that through continuous learning and practice, I can create better embedded system solutions.</span></p>
+        </div>
+        <div class="about-skills reveal">
+          <h3 class="skills-title"><span class="lang-zh">专业技能</span><span class="lang-en">Professional Skills</span></h3>
+          <div class="skill-cloud">
+            <div class="skill-item"><span class="skill-name">STM32</span><span class="skill-bar" style="--w:90%"></span></div>
+            <div class="skill-item"><span class="skill-name"><span class="lang-zh">嵌入式 C/C++</span><span class="lang-en">Embedded C/C++</span></span><span class="skill-bar" style="--w:88%"></span></div>
+            <div class="skill-item"><span class="skill-name">Altium Designer</span><span class="skill-bar" style="--w:85%"></span></div>
+            <div class="skill-item"><span class="skill-name"><span class="lang-zh">嘉立创 EDA</span><span class="lang-en">JLC EDA</span></span><span class="skill-bar" style="--w:82%"></span></div>
+            <div class="skill-item"><span class="skill-name"><span class="lang-zh">PCB 设计</span><span class="lang-en">PCB Design</span></span><span class="skill-bar" style="--w:80%"></span></div>
+            <div class="skill-item"><span class="skill-name"><span class="lang-zh">FPGA 设计</span><span class="lang-en">FPGA Design</span></span><span class="skill-bar" style="--w:78%"></span></div>
+            <div class="skill-item"><span class="skill-name">SolidWorks</span><span class="skill-bar" style="--w:75%"></span></div>
+            <div class="skill-item"><span class="skill-name">Keil5</span><span class="skill-bar" style="--w:80%"></span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="contact-section">
-      <h2 class="contact-title">联系我</h2>
-      <div class="contact-card">
-        <div class="contact-email">
-          <a href="mailto:19929138242@163.com">19929138242@163.com</a>
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <span class="section-tag center">/ 03</span>
+          <h2 class="contact-title"><span class="lang-zh">让我们一起创造点什么</span><span class="lang-en">Let's Build Something Together</span></h2>
+          <p class="contact-sub"><span class="lang-zh">如果您对我的项目感兴趣，或者有任何合作机会，欢迎通过邮箱与我联系。</span><span class="lang-en">If you are interested in my projects or have any cooperation opportunities, please feel free to contact me via email.</span></p>
+          <a href="mailto:19929138242@163.com" class="btn btn-primary btn-lg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>19929138242@163.com</a>
         </div>
-        <p class="contact-message">
-          如果您对我的项目感兴趣，或者有任何合作机会，欢迎通过邮箱与我联系。
-        </p>
       </div>
     </section>
   </main>
 
-  <!-- 模态框1：四足机器人 -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal1')">&times;</span>
-      <h2 class="modal-title">四足机器人</h2>
-      <div class="image-slider">
-        <div class="slider-container">
-          <div class="slider-images" id="slider1">
-            <img src="images/robot1.jpg" alt="四足机器人1" class="slider-image">
-            <img src="images/robot2.jpg" alt="四足机器人2" class="slider-image">
-            <img src="images/robot3.jpg" alt="四足机器人3" class="slider-image">
-          </div>
-          <button class="slider-btn prev" onclick="prevSlide('slider1')">&lt;</button>
-          <button class="slider-btn next" onclick="nextSlide('slider1')">&gt;</button>
-          <div class="slider-indicators" id="indicators1">
-            <div class="slider-indicator active" onclick="goToSlide('slider1', 0)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider1', 1)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider1', 2)"></div>
-          </div>
-        </div>
-      </div>
-      <p class="modal-desc">
-        充分调研了当前市场上的四足机器人设计及设计需求，电机采用宇树GO-M8010-6永磁同步电机，绘制分电板，用来设计整体硬件架构，主控使用嘉立创EDA基于STM32设计RS-485,CAN,UART总线,IIC总线的四层PCB板，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。
-      </p>
-      <div class="modal-tech">关键技术：4层PCB设计，运动学正解，运动学逆解，IMU,SBUS通信协议</div>
-      <div class="tech-stack modal-tech-list">
-        <span class="tech-tag">STM32</span>
-        <span class="tech-tag">无刷电机+IMU融合</span>
-        <span class="tech-tag">485总线</span>
-        <span class="tech-tag">SBUS遥控</span>
-        <span class="tech-tag">嘉立创EDA</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 模态框2：太阳能小车 -->
-  <div id="modal2" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal2')">&times;</span>
-      <h2 class="modal-title">太阳能小车</h2>
-      <div class="image-slider">
-        <div class="slider-container">
-          <div class="slider-images" id="slider2">
-            <img src="images/solar1.jpg" alt="太阳能小车1" class="slider-image">
-            <img src="images/solar2.jpg" alt="太阳能小车2" class="slider-image">
-            <img src="images/solar3.jpg" alt="太阳能小车3" class="slider-image">
-          </div>
-          <button class="slider-btn prev" onclick="prevSlide('slider2')">&lt;</button>
-          <button class="slider-btn next" onclick="nextSlide('slider2')">&gt;</button>
-          <div class="slider-indicators" id="indicators2">
-            <div class="slider-indicator active" onclick="goToSlide('slider2', 0)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider2', 1)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider2', 2)"></div>
-          </div>
-        </div>
-      </div>
-      <p class="modal-desc">
-        设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛“重走长征路”主题赛道。车辆需自主循迹，精准抵达瑞金、延安等13个历史节点（初赛10固定点，决赛13随机点），融合红色文化与绿色科技，考验工程全链路能力。设计过程中，负责电路设计与调试，采用太阳能板供电，设计高效能量管理系统，确保续航能力。通过优化电机控制算法和车体结构，实现精准循迹和稳定行驶。最终成功完成比赛任务，获得优异成绩。
-      </p>
-      <div class="tech-stack modal-tech-list">
-        <span class="tech-tag">超级电容</span>
-        <span class="tech-tag">UID标签</span>
-        <span class="tech-tag">keil5调试</span>
-        <span class="tech-tag">SolidWorks</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 模态框3：6层PCB绘制 -->
-  <div id="modal3" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal3')">&times;</span>
-      <h2 class="modal-title">6层PCB绘制</h2>
-      <div class="image-slider">
-        <div class="slider-container">
-          <div class="slider-images" id="slider3">
-            <img src="images/pcb1.jpg" alt="6层PCB绘制1" class="slider-image">
-            <img src="images/pcb2.jpg" alt="6层PCB绘制2" class="slider-image">
-            <img src="images/pcb3.jpg" alt="6层PCB绘制3" class="slider-image">
-          </div>
-          <button class="slider-btn prev" onclick="prevSlide('slider3')">&lt;</button>
-          <button class="slider-btn next" onclick="nextSlide('slider3')">&gt;</button>
-          <div class="slider-indicators" id="indicators3">
-            <div class="slider-indicator active" onclick="goToSlide('slider3', 0)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider3', 1)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider3', 2)"></div>
-          </div>
-        </div>
-      </div>
-      <p class="modal-desc">基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板，实现高速信号传输与电源管理。</p>
-      <div class="tech-stack modal-tech-list">
-        <span class="tech-tag">DDR3内存</span>
-        <span class="tech-tag">阻抗匹配</span>
-        <span class="tech-tag">HDMI接口</span>
-        <span class="tech-tag">嘉立创EDA</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 模态框4：无人机飞控系统 -->
-  <div id="modal4" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal4')">&times;</span>
-      <h2 class="modal-title">无人机飞控系统</h2>
-      <div class="image-slider">
-        <div class="slider-container">
-          <div class="slider-images" id="slider4">
-            <img src="images/drone1.jpg" alt="无人机飞控系统1" class="slider-image">
-            <img src="images/drone2.jpg" alt="无人机飞控系统2" class="slider-image">
-            <img src="images/drone3.jpg" alt="无人机飞控系统3" class="slider-image">
-          </div>
-          <button class="slider-btn prev" onclick="prevSlide('slider4')">&lt;</button>
-          <button class="slider-btn next" onclick="nextSlide('slider4')">&gt;</button>
-          <div class="slider-indicators" id="indicators4">
-            <div class="slider-indicator active" onclick="goToSlide('slider4', 0)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider4', 1)"></div>
-            <div class="slider-indicator" onclick="goToSlide('slider4', 2)"></div>
-          </div>
-        </div>
-      </div>
-      <p class="modal-desc">参与到不同款式的无人机飞控系统的开发与迭代硬件设计，使用Altium
-        Designer进行设计，实现CAN,485,232,422,气压计，空速计，IMU,PWM,电压检测等接口的集成，完成了电路设计、PCB绘制、焊接软硬件调试等工作，最终实现了飞控系统的正常运行，并成功应用于多款无人机平台，完成了基本的飞行控制功能，支持远程控制。
-      </p>
-      <div class="tech-stack modal-tech-list">
-        <span class="tech-tag">冗余设计</span>
-        <span class="tech-tag">结构设计</span>
-        <span class="tech-tag">Altium Designer</span>
-        <span class="tech-tag">实习经历</span>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="container">
-      <p>© 2023 WangGaoshuan 保留所有权利</p>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><span class="logo-mark sm">WG</span><span><span class="lang-zh">王高栓 · 嵌入式系统工程师</span><span class="lang-en">Wang Gaoshuan · Embedded Systems Engineer</span></span></div>
+      <div class="footer-copy">© <span id="year"></span> <span class="lang-zh">王高栓 · 保留所有权利</span><span class="lang-en">Wang Gaoshuan · All rights reserved</span></div>
     </div>
   </footer>
 
-  <script>
-    // 模态框功能
-    function openModal(modalId) {
-      document.getElementById(modalId).style.display = "block";
-    }
+  <!-- Project Detail Modal -->
+  <div class="modal" id="projectModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-gallery" id="modalGallery"></div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-tags" id="modalTags"></div>
+    </div>
+  </div>
 
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = "none";
-    }
+  <!-- Image Lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-backdrop" data-close-lightbox></div>
+    <button class="lightbox-close" data-close-lightbox aria-label="Close"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <img class="lightbox-img" id="lbImg" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Next"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div class="lightbox-counter" id="lbCounter"></div>
+  </div>
 
-    // 点击模态框外部关闭
-    window.onclick = function (event) {
-      var modals = document.getElementsByClassName("modal");
-      for (var i = 0; i < modals.length; i++) {
-        if (event.target == modals[i]) {
-          modals[i].style.display = "none";
-        }
-      }
-    }
-
-    // 语言切换功能
-    let currentLanguage = 'zh';
-    document.getElementById('languageBtn').addEventListener('click', function () {
-      if (currentLanguage === 'zh') {
-        // 切换到英文
-        document.documentElement.lang = 'en';
-        document.querySelector('h1').textContent = 'Personal Homepage';
-        document.querySelector('.subtitle').textContent = 'Embedded Systems Engineer | 19929138242@163.com';
-        document.querySelectorAll('.nav-link')[0].textContent = 'Projects';
-        document.querySelectorAll('.nav-link')[1].textContent = 'About Me';
-        document.querySelectorAll('.nav-link')[2].textContent = 'Contact';
-        document.querySelectorAll('.project-title')[0].textContent = 'Quadruped Robot';
-        document.querySelectorAll('.project-title')[1].textContent = 'Solar Car';
-        document.querySelectorAll('.project-title')[2].textContent = '6-Layer PCB Design';
-        document.querySelectorAll('.project-title')[3].textContent = 'UAV Flight Control System';
-        document.querySelectorAll('.project-description')[0].textContent = 'STM32-based quadruped robot system, completed basic walking, turning and obstacle avoidance functions, supporting remote control.';
-        document.querySelectorAll('.project-description')[1].textContent = 'Designed solar electric vehicle, participated in 2025 China University Student Engineering Practice and Innovation Ability Competition, realized autonomous tracking function.';
-        document.querySelectorAll('.project-description')[2].textContent = 'Based on GW2A-LV18PG256C8/I7 FPGA, designed 6-layer PCB board using JLCEDA.';
-        document.querySelectorAll('.project-description')[3].textContent = 'Participated in the development and iterative hardware design of different types of UAV flight control systems, realizing multiple interface integration.';
-        document.querySelector('.about-title').textContent = 'About Me';
-        document.querySelectorAll('.about-description')[0].textContent = 'I am an embedded systems engineer, focusing on hardware design and embedded system development. I have rich project experience, including quadruped robots, solar cars, PCB design and UAV flight control systems.';
-        document.querySelectorAll('.about-description')[1].textContent = 'I love technological innovation, am good at solving complex engineering problems, and have good team spirit. I believe that through continuous learning and practice, I can create better embedded system solutions.';
-        document.querySelector('.skills-title').textContent = 'Professional Skills';
-        document.querySelector('.contact-title').textContent = 'Contact Me';
-        document.querySelector('.contact-message').textContent = 'If you are interested in my projects or have any cooperation opportunities, please feel free to contact me via email.';
-        document.querySelector('footer p').textContent = '© 2023 WangGaoshuan All Rights Reserved';
-        document.getElementById('languageBtn').textContent = '中文';
-        currentLanguage = 'en';
-      } else {
-        // 切换到中文
-        document.documentElement.lang = 'zh-CN';
-        document.querySelector('h1').textContent = '个人主页';
-        document.querySelector('.subtitle').textContent = '嵌入式系统工程师 | 19929138242@163.com';
-        document.querySelectorAll('.nav-link')[0].textContent = '项目';
-        document.querySelectorAll('.nav-link')[1].textContent = '关于我';
-        document.querySelectorAll('.nav-link')[2].textContent = '联系我';
-        document.querySelectorAll('.project-title')[0].textContent = '四足机器人';
-        document.querySelectorAll('.project-title')[1].textContent = '太阳能小车';
-        document.querySelectorAll('.project-title')[2].textContent = '6层PCB绘制';
-        document.querySelectorAll('.project-title')[3].textContent = '无人机飞控系统';
-        document.querySelectorAll('.project-description')[0].textContent = '基于STM32的四足机器人系统，完成了基本的行走、转向和避障功能，支持远程控制。';
-        document.querySelectorAll('.project-description')[1].textContent = '设计太阳能电动车，参与2025中国大学生工程实践与创新能力大赛，实现自主循迹功能。';
-        document.querySelectorAll('.project-description')[2].textContent = '基于GW2A-LV18PG256C8/I7的FPGA绘制，采用嘉立创EDA设计6层PCB板。';
-        document.querySelectorAll('.project-description')[3].textContent = '参与不同款式的无人机飞控系统开发与迭代硬件设计，实现多种接口集成。';
-        document.querySelector('.about-title').textContent = '关于我';
-        document.querySelectorAll('.about-description')[0].textContent = '我是一名嵌入式系统工程师，专注于硬件设计和嵌入式系统开发。拥有丰富的项目经验，包括四足机器人、太阳能小车、PCB设计和无人机飞控系统等。';
-        document.querySelectorAll('.about-description')[1].textContent = '我热爱技术创新，善于解决复杂的工程问题，并且具有良好的团队合作精神。我相信通过不断学习和实践，可以创造出更优秀的嵌入式系统解决方案。';
-        document.querySelector('.skills-title').textContent = '专业技能';
-        document.querySelector('.contact-title').textContent = '联系我';
-        document.querySelector('.contact-message').textContent = '如果您对我的项目感兴趣，或者有任何合作机会，欢迎通过邮箱与我联系。';
-        document.querySelector('footer p').textContent = '© 2023 WangGaoshuan 保留所有权利';
-        document.getElementById('languageBtn').textContent = 'English';
-        currentLanguage = 'zh';
-      }
-    });
-
-    // 主题切换功能
-    let currentTheme = 'dark';
-    document.getElementById('themeBtn').addEventListener('click', function () {
-      if (currentTheme === 'dark') {
-        // 切换到浅色主题
-        document.body.classList.add('light');
-        document.getElementById('themeBtn').textContent = '🌙';
-        currentTheme = 'light';
-      } else {
-        // 切换到深色主题
-        document.body.classList.remove('light');
-        document.getElementById('themeBtn').textContent = '🌞';
-        currentTheme = 'dark';
-      }
-    });
-
-    // 图片轮播功能
-    let currentSlides = {
-      'slider1': 0,
-      'slider2': 0,
-      'slider3': 0,
-      'slider4': 0
-    };
-
-    function updateSlider(sliderId) {
-      const slider = document.getElementById(sliderId);
-      const slides = slider.children;
-      const indicators = document.getElementById(`indicators${sliderId.slice(-1)}`).children;
-      const currentSlide = currentSlides[sliderId];
-
-      // 更新幻灯片位置
-      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-      // 更新指示器状态
-      for (let i = 0; i < indicators.length; i++) {
-        indicators[i].classList.remove('active');
-      }
-      indicators[currentSlide].classList.add('active');
-    }
-
-    function nextSlide(sliderId) {
-      const slider = document.getElementById(sliderId);
-      const slidesCount = slider.children.length;
-      currentSlides[sliderId] = (currentSlides[sliderId] + 1) % slidesCount;
-      updateSlider(sliderId);
-    }
-
-    function prevSlide(sliderId) {
-      const slider = document.getElementById(sliderId);
-      const slidesCount = slider.children.length;
-      currentSlides[sliderId] = (currentSlides[sliderId] - 1 + slidesCount) % slidesCount;
-      updateSlider(sliderId);
-    }
-
-    function goToSlide(sliderId, index) {
-      currentSlides[sliderId] = index;
-      updateSlider(sliderId);
-    }
-
-    // 自动轮播
-    setInterval(() => {
-      Object.keys(currentSlides).forEach(sliderId => {
-        nextSlide(sliderId);
-      });
-    }, 5000);
-
-    // 淡入动画
-    document.addEventListener('DOMContentLoaded', function () {
-      const fadeElements = document.querySelectorAll('.fade-in');
-      fadeElements.forEach((element, index) => {
-        element.style.animationDelay = `${index * 0.1}s`;
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
